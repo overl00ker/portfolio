@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andrew Tymofeiev Portfolio</title>
+<meta name="description" content="AI-generated product imagery, photorealistic portraits, illustration and concept art by Andrew Tymofeiev. ComfyUI, custom LoRA training.">
+<script>document.documentElement.className = "js";</script>
+<style>
+@font-face { font-family: "Anton"; src: url("anton-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans"; src: url("ibm-plex-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans"; src: url("ibm-plex-sans-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans"; src: url("ibm-plex-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "IBM Plex Mono"; src: url("ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "IBM Plex Mono"; src: url("ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+/* Layout idea: a short intro, then a wheel of cards that turns on a golden spiral as you scroll.
+   One card lands face up at a time with one reason to hire. The page tint follows the card's category. */
+:root {
+  --bg: #0c0f12;
+  --ink: #ecebe6;
+  --muted: #9da4a4;
+  --line: rgba(236, 235, 230, .14);
+  --panel: rgba(236, 235, 230, .05);
+  --accent: #d9d2c2;
+  --display: "Anton", "Arial Narrow", Impact, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --bar: 52px;
+  color-scheme: dark;
+}
+body[data-scene="product"]      { --bg: #07161a; --accent: #7fd6d2; }
+body[data-scene="people"]       { --bg: #17120d; --accent: #f2b680; }
+body[data-scene="illustration"] { --bg: #120c20; --accent: #ff9db1; }
+body[data-scene="worlds"]       { --bg: #0a1119; --accent: #ffa24a; }
+body[data-scene="wildlife"]     { --bg: #0d1412; --accent: #cfe3d2; }
+body[data-scene="process"]      { --bg: #0e1110; --accent: #c9d3c4; }
+body[data-scene="contact"]      { --bg: #1c0b07; --accent: #ff7a4d; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 16px; line-height: 1.55;
+  transition: background-color .9s ease;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .09; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.wrap { width: min(1180px, 100%); margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+.mono { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.accent { color: var(--accent); transition: color .9s ease; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; margin: 0; text-wrap: balance; overflow-wrap: break-word; }
+h2 { font-size: clamp(44px, 8.2vw, 96px); line-height: .95; }
+
+.progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 70; background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; transition: background-color .9s ease; pointer-events: none; }
+
+.top { position: fixed; top: 0; left: 0; right: 0; z-index: 40; height: var(--bar); background: color-mix(in srgb, var(--bg) 78%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); transition: background-color .9s ease; }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 100%; width: 100%; max-width: none; }
+.top a { text-decoration: none; }
+.top nav { display: flex; gap: clamp(14px, 2.4vw, 28px); }
+.top nav a { color: var(--muted); }
+.top nav a:hover { color: var(--ink); }
+.top nav a.cta { color: var(--accent); transition: color .9s ease; }
+@media (max-width: 640px) { .top nav a:not(.cta) { display: none; } }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 18px; border: 1px solid var(--line); border-radius: 999px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  text-decoration: none; color: var(--ink); background: transparent; cursor: pointer;
+  transition: border-color .2s, background-color .2s, color .2s;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.solid { background: var(--ink); color: #0c0f12; border-color: var(--ink); }
+.btn.solid:hover { background: var(--accent); border-color: var(--accent); }
+
+/* 1. intro */
+.hero { min-height: 100vh; min-height: 100svh; padding: calc(var(--bar) + 24px) clamp(16px, 4vw, 40px) clamp(20px, 4vh, 40px); display: grid; grid-template-rows: 1fr auto; gap: 24px; }
+.hero-mid { align-self: center; justify-self: center; display: grid; gap: 18px; justify-items: center; text-align: center; max-width: 900px; }
+h1 { font-size: clamp(60px, 15vw, 150px); line-height: .9; }
+h1 .ln { display: block; overflow: hidden; padding: .1em 0 .04em; margin-top: -.1em; }
+h1 .ln > span { display: block; animation: up .95s cubic-bezier(.2, .8, .2, 1) both; }
+h1 .ln:nth-child(2) > span { animation-delay: .12s; }
+@keyframes up { from { transform: translateY(112%); } to { transform: none; } }
+@keyframes rise { from { transform: translateY(22px); opacity: 0; } to { transform: none; opacity: 1; } }
+.hero-mid > p, .hero-mid > ul, .sides { animation: rise .8s .3s both; }
+.pitch { margin: 0; max-width: 44ch; font-size: clamp(16px, 1.6vw, 19px); }
+.facts-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; margin: 0; padding: 0; list-style: none; color: var(--muted); }
+.sides { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.sides .hint { color: var(--muted); }
+@media (max-width: 640px) { .sides .hint { display: none; } }
+
+/* 2. wheel */
+.wheel { position: relative; }
+.stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.card { position: absolute; left: 0; top: 0; will-change: transform, opacity; perspective: 1400px; display: none; cursor: pointer; }
+.flip { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform; }
+.face { position: absolute; inset: 0; border-radius: 8px; overflow: hidden; -webkit-backface-visibility: hidden; backface-visibility: hidden; box-shadow: 0 18px 50px rgba(0, 0, 0, .5); }
+.front { padding: 0; border: 0; background: #14181c; cursor: zoom-in; display: block; width: 100%; height: 100%; }
+.front img { width: 100%; height: 100%; object-fit: cover; }
+.back {
+  transform: rotateY(180deg); background: #12161a; border: 1px solid var(--line);
+  display: grid; place-items: center;
+  background-image: repeating-linear-gradient(45deg, rgba(236, 235, 230, .035) 0 2px, transparent 2px 12px), repeating-linear-gradient(-45deg, rgba(236, 235, 230, .035) 0 2px, transparent 2px 12px);
+}
+.back::before { content: ""; position: absolute; inset: 7%; border: 1px solid var(--accent); border-radius: 5px; opacity: .55; transition: border-color .9s ease; }
+.back b { font-family: var(--display); font-weight: 400; font-size: 34cqw; line-height: 1; color: var(--accent); transition: color .9s ease; }
+.back { container-type: inline-size; }
+.tag { position: absolute; bottom: 10px; padding: 4px 9px; border-radius: 999px; background: rgba(8, 10, 12, .72); font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
+.tag.l { left: 10px; } .tag.r { right: 10px; }
+
+.facts { position: absolute; z-index: 30; pointer-events: none; }
+.fact { position: absolute; left: 0; right: 0; bottom: 0; display: grid; gap: 10px; opacity: 0; will-change: transform, opacity; }
+.fact h3 { font-size: clamp(30px, 4.4vw, 66px); line-height: .98; }
+.fact .s { margin: 0; color: var(--ink); max-width: 38ch; font-size: clamp(15px, 1.3vw, 18px); }
+.fact .d { margin: 0; color: var(--muted); font-size: 11px; letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+.fact .meta { margin: 0; }
+.fact .meta b { font-weight: 500; }
+
+.hud { position: absolute; z-index: 31; display: flex; align-items: center; gap: 10px; }
+.hud .count { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 7ch; }
+.hud .btn { padding: 9px 13px; }
+html:not(.js) .wheel { display: none; }
+
+/* 3. index, process, contact */
+.scene { padding-block: clamp(56px, 10vw, 120px); border-top: 1px solid var(--line); position: relative; }
+.scene > .wrap { display: grid; gap: clamp(24px, 4vw, 44px); }
+.scene-head { display: grid; gap: 14px; }
+.scene-head .lede { margin: 0; max-width: 46ch; color: var(--muted); font-size: clamp(16px, 1.4vw, 18px); }
+.rows { display: grid; gap: clamp(8px, 1.2vw, 14px); margin-top: clamp(24px, 4vw, 44px); }
+.row { overflow: hidden; }
+.track { display: flex; gap: clamp(8px, 1.2vw, 14px); padding-right: clamp(8px, 1.2vw, 14px); width: max-content; animation: slide 80s linear infinite; }
+.row.rev .track { animation-direction: reverse; }
+.row.slow .track { animation-duration: 110s; }
+.row:hover .track, .row:focus-within .track { animation-play-state: paused; }
+@keyframes slide { to { transform: translateX(-50%); } }
+.shot { flex: 0 0 auto; height: clamp(140px, 19vw, 230px); padding: 0; border: 0; margin: 0; background: var(--panel); border-radius: 4px; overflow: hidden; cursor: zoom-in; }
+.shot img { height: 100%; width: auto; max-width: none; transition: transform .6s ease, filter .3s ease; }
+.shot:hover img { transform: scale(1.05); filter: brightness(1.08); }
+.avail { margin: 0; color: var(--muted); }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 12px; padding: 18px 0; border-top: 1px solid var(--line); counter-increment: s; }
+.steps li::before { content: "0" counter(s); font-family: var(--mono); font-size: 12px; color: var(--accent); padding-top: 4px; transition: color .9s ease; }
+.steps h3 { font-family: var(--body); text-transform: none; font-size: 18px; font-weight: 600; }
+.steps p { margin: 0; grid-column: 2; color: var(--muted); max-width: 62ch; }
+.two { display: grid; gap: clamp(28px, 5vw, 72px); }
+@media (min-width: 900px) { .two { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); align-items: start; } }
+.side { display: grid; gap: 22px; }
+.side p { margin: 0; color: var(--muted); max-width: 46ch; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.chips li { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; font-family: var(--mono); font-size: 12px; }
+.contact h2 { max-width: 14ch; }
+.mail { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+.mail a { font-size: clamp(20px, 3.2vw, 34px); font-weight: 500; text-decoration-color: var(--accent); text-underline-offset: 6px; overflow-wrap: anywhere; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+footer { border-top: 1px solid var(--line); padding-block: 22px 40px; color: var(--muted); font-size: 13px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+footer p { margin: 0; max-width: 70ch; }
+
+.js .reveal { opacity: .2; transform: translateY(30px); transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform 1s cubic-bezier(.2, .7, .2, 1); transition-delay: var(--d, 0s); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+/* lightbox */
+.lb { position: fixed; inset: 0; z-index: 80; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 10px; background: rgba(5, 6, 8, .95); padding: 14px; visibility: hidden; opacity: 0; transition: opacity .3s ease, visibility 0s linear .3s; }
+.lb.open { visibility: visible; opacity: 1; transition: opacity .3s ease; }
+.lb-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.lb-stage { position: relative; min-height: 0; overflow: hidden; }
+.lb-stage.zoom { overflow: auto; overscroll-behavior: contain; }
+.lb-stage img { position: absolute; inset: 0; margin: auto; cursor: zoom-in; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 3px; transition: opacity .35s ease, transform .5s cubic-bezier(.2, .7, .2, 1); }
+.lb-stage.zoom img { position: static; display: block; margin: 0 auto; max-width: none; max-height: none; cursor: zoom-out; transition: none; }
+.lb-stage img.swap { opacity: 0; transform: scale(.965); transition: none; }
+.lb-cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: 14px; }
+.lb-cap .d { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.lb .btn { padding: 9px 14px; }
+.lb-nav { display: flex; gap: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .row { overflow-x: auto; }
+  .shot.dup { display: none; }
+}
+</style>
+</head>
+<body data-scene="intro">
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mono" href="#top">Andrew Tymofeiev</a>
+    <nav class="mono" aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a class="cta" href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" data-scene="intro">
+  <div class="hero-mid">
+    <p class="mono accent" style="margin:0">AI Content Creator / AI Artist</p>
+    <h1><span class="ln"><span>Andrew</span></span> <span class="ln"><span>Tymofeiev</span></span></h1>
+    <p class="pitch">Photorealistic product and people imagery, illustration and concept art. Generated in ComfyUI with LoRA models I train myself, then finished by hand.</p>
+    <ul class="facts-row mono">
+      <li>3 years in ComfyUI</li>
+      <li>Custom LoRA training</li>
+      <li>Kyiv, open to remote</li>
+    </ul>
+  </div>
+  <div class="sides">
+    <a class="btn solid" href="#work">See the work</a>
+    <span class="mono hint">Scroll to turn the wheel</span>
+    <a class="btn" href="#contact">Get in touch</a>
+  </div>
+</section>
+
+<section class="wheel" id="work" aria-label="Selected work">
+  <div class="stage" id="stage">
+    <div class="card" data-cat="product" data-ar="1.7917"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: PURE AESTHETICS, flat lay with label sketch"><img data-src="t-flatlay.webp" width="860" height="480" alt="Perfume bottle on textured paper beside dried monstera leaves and a pencil sketch of the bottle" decoding="async"></button><div class="face back" aria-hidden="true"><b>01</b></div></div></div>
+    <div class="card" data-cat="product" data-ar="0.7500"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Underwater key visual, dark"><img data-src="t-perfume-dark.webp" width="645" height="860" alt="Perfume bottle underwater among white roses on a dark teal background" decoding="async"></button><div class="face back" aria-hidden="true"><b>02</b></div></div></div>
+    <div class="card" data-cat="product" data-ar="0.5581"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Underwater key visual, light"><img data-src="t-perfume-light.webp" width="480" height="860" alt="Perfume bottle under the water surface among white roses, bright version" decoding="async"></button><div class="face back" aria-hidden="true"><b>03</b></div></div></div>
+    <div class="card" data-cat="product" data-ar="0.5581"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: At the surface"><img data-src="t-surface.webp" width="480" height="860" alt="Perfume bottle just under the water surface among cream roses and peonies" decoding="async"></button><div class="face back" aria-hidden="true"><b>04</b></div></div></div>
+    <div class="card" data-cat="product" data-ar="1.7917"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Flora Mist, floating bottle"><img data-src="t-flora.webp" width="860" height="480" alt="Pink perfume bottle floating among petals and dried flowers on a soft blurred background" decoding="async"></button><div class="face back" aria-hidden="true"><b>05</b></div></div></div>
+    <div class="card" data-cat="product" data-ar="0.5709"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Solaris, studio splash"><img data-src="t-can-splash.webp" width="491" height="860" alt="Drink can with engraved citrus artwork in a red splash with orange slices" decoding="async"></button><div class="face back" aria-hidden="true"><b>06</b></div></div></div>
+    <div class="card" data-cat="product" data-ar="0.5709"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Solaris, sun and stone"><img data-src="t-can-stone.webp" width="491" height="860" alt="Drink can on a travertine ledge in hard sunlight beside half an orange" decoding="async"></button><div class="face back" aria-hidden="true"><b>07</b></div></div></div>
+    <div class="card" data-cat="product" data-ar="0.5709"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Solaris, night street"><img data-src="t-can-night.webp" width="491" height="860" alt="Drink can on wet asphalt at night with blurred city lights behind" decoding="async"></button><div class="face back" aria-hidden="true"><b>08</b></div></div></div>
+    <div class="card" data-cat="product" data-ar="0.5709"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Solaris, on ice"><img data-src="t-can-ice.webp" width="491" height="860" alt="Close-up of a drink can lying in ice under dripping icicles" decoding="async"></button><div class="face back" aria-hidden="true"><b>09</b></div></div></div>
+    <div class="card" data-cat="people" data-ar="1.7769"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Outdoor portrait, overcast light"><img data-src="t-field.webp" width="860" height="484" alt="Smiling woman with wind-blown hair in a field, wind turbine in the background" decoding="async"></button><div class="face back" aria-hidden="true"><b>10</b></div></div></div>
+    <div class="card" data-cat="people" data-ar="1.3110"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Raw generation and final grade"><img data-src="t-pair.webp" width="860" height="656" alt="The same portrait twice: flat raw generation on the left, warm graded final on the right" decoding="async"><span class="tag l">Raw</span><span class="tag r">Final</span></button><div class="face back" aria-hidden="true"><b>11</b></div></div></div>
+    <div class="card" data-cat="people" data-ar="0.7465"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Profile at dusk by the sea"><img data-src="t-dusk.webp" width="642" height="860" alt="Woman in a knitted sweater in profile against the sea at dusk" decoding="async"></button><div class="face back" aria-hidden="true"><b>12</b></div></div></div>
+    <div class="card" data-cat="people" data-ar="0.7465"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: City overlook portrait"><img data-src="t-overlook.webp" width="642" height="860" alt="Woman in a black T-shirt leaning on a stone parapet above a river and city" decoding="async"></button><div class="face back" aria-hidden="true"><b>13</b></div></div></div>
+    <div class="card" data-cat="people" data-ar="0.7500"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Film look, backlight and lens flare"><img data-src="t-film.webp" width="645" height="860" alt="Woman seen from behind facing the sea in strong backlight, film-style date stamp" decoding="async"></button><div class="face back" aria-hidden="true"><b>14</b></div></div></div>
+    <div class="card" data-cat="illustration" data-ar="0.6256"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Close-up, hard rim light"><img data-src="t-eye.webp" width="538" height="860" alt="Anime close-up of a girl with pink hair looking through her fingers out of darkness" decoding="async"></button><div class="face back" aria-hidden="true"><b>15</b></div></div></div>
+    <div class="card" data-cat="illustration" data-ar="0.5000"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Spear and butterflies"><img data-src="t-butterflies.webp" width="430" height="860" alt="Anime character with long blue hair holding a spear among glowing butterflies at night" decoding="async"></button><div class="face back" aria-hidden="true"><b>16</b></div></div></div>
+    <div class="card" data-cat="illustration" data-ar="0.6430"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: The flower"><img data-src="t-knight.webp" width="553" height="860" alt="A girl in white offering a glowing flower to a huge bloodstained knight" decoding="async"></button><div class="face back" aria-hidden="true"><b>17</b></div></div></div>
+    <div class="card" data-cat="illustration" data-ar="0.5000"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Tram in the rain"><img data-src="t-tram.webp" width="430" height="860" alt="Painterly evening street in the rain with a tram and people under umbrellas" decoding="async"></button><div class="face back" aria-hidden="true"><b>18</b></div></div></div>
+    <div class="card" data-cat="worlds" data-ar="0.6663"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Glass sphere and red silk"><img data-src="t-sphere.webp" width="573" height="860" alt="Glass sphere holding an island abbey above waves of red silk, city lights behind" decoding="async"></button><div class="face back" aria-hidden="true"><b>19</b></div></div></div>
+    <div class="card" data-cat="worlds" data-ar="0.5628"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Rooftop at dusk"><img data-src="t-paris.webp" width="484" height="860" alt="Person sitting on a rooftop at dusk above a city of blurred lights" decoding="async"></button><div class="face back" aria-hidden="true"><b>20</b></div></div></div>
+    <div class="card" data-cat="worlds" data-ar="0.6256"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Cabin under the station"><img data-src="t-cabin.webp" width="538" height="860" alt="Snowbound cabin with lit windows below a cliff-top station under a full moon" decoding="async"></button><div class="face back" aria-hidden="true"><b>21</b></div></div></div>
+    <div class="card" data-cat="worlds" data-ar="0.5628"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Winter castle"><img data-src="t-castle.webp" width="484" height="860" alt="Gothic castle on a snowy rock above a stone bridge in falling snow" decoding="async"></button><div class="face back" aria-hidden="true"><b>22</b></div></div></div>
+    <div class="card" data-cat="worlds" data-ar="1.3333"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Stone bridge, autumn"><img data-src="t-bridge.webp" width="860" height="645" alt="Old stone arch bridge over a still river surrounded by red maples" decoding="async"></button><div class="face back" aria-hidden="true"><b>23</b></div></div></div>
+    <div class="card" data-cat="wildlife" data-ar="1.5009"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Snowy owl"><img data-src="t-owl.webp" width="860" height="573" alt="Snowy owl on a wooden fence post in a snowstorm" decoding="async"></button><div class="face back" aria-hidden="true"><b>24</b></div></div></div>
+    <div class="card" data-cat="wildlife" data-ar="0.5628"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Deer, frost and backlight"><img data-src="t-deer.webp" width="484" height="860" alt="Stag in a snowy pine forest, breath steaming in low sunlight" decoding="async"></button><div class="face back" aria-hidden="true"><b>25</b></div></div></div>
+    <div class="card" data-cat="wildlife" data-ar="0.7500"><div class="flip"><button class="face front" type="button" tabindex="-1" aria-label="Open full size: Sleeping fox"><img data-src="t-fox.webp" width="645" height="860" alt="Red fox curled up asleep on wet autumn leaves" decoding="async"></button><div class="face back" aria-hidden="true"><b>26</b></div></div></div>
+    <div class="facts" id="facts">
+      <div class="fact"><p class="mono meta accent"><b>01</b> / Product</p><h3>One bottle, one label, every shot</h3><p class="s">The product stays identical across a whole campaign.</p><p class="mono d">PURE AESTHETICS, flat lay with label sketch</p></div>
+      <div class="fact"><p class="mono meta accent"><b>02</b> / Product</p><h3>Delivered at 2880 × 3840</h3><p class="s">Large enough for print and tight crops.</p><p class="mono d">Underwater key visual, dark</p></div>
+      <div class="fact"><p class="mono meta accent"><b>03</b> / Product</p><h3>A new key visual without a reshoot</h3><p class="s">Same product, new light and a new mood.</p><p class="mono d">Underwater key visual, light</p></div>
+      <div class="fact"><p class="mono meta accent"><b>04</b> / Product</p><h3>Label text stays readable</h3><p class="s">Lettering is checked on every frame before it goes out.</p><p class="mono d">At the surface</p></div>
+      <div class="fact"><p class="mono meta accent"><b>05</b> / Product</p><h3>A different brand, a different mood</h3><p class="s">The look is built around the product.</p><p class="mono d">Flora Mist, floating bottle</p></div>
+      <div class="fact"><p class="mono meta accent"><b>06</b> / Product</p><h3>Text that survives a curve</h3><p class="s">Lettering wraps around a can and stays the same in every scene.</p><p class="mono d">Solaris, studio splash</p></div>
+      <div class="fact"><p class="mono meta accent"><b>07</b> / Product</p><h3>Same can, a new set</h3><p class="s">Sun, travertine and a palm shadow, with no location shoot.</p><p class="mono d">Solaris, sun and stone</p></div>
+      <div class="fact"><p class="mono meta accent"><b>08</b> / Product</p><h3>Day or night, the same label</h3><p class="s">Print and colour hold under street light and rain.</p><p class="mono d">Solaris, night street</p></div>
+      <div class="fact"><p class="mono meta accent"><b>09</b> / Product</p><h3>Close enough to read the print</h3><p class="s">A macro crop keeps the engraved artwork intact.</p><p class="mono d">Solaris, on ice</p></div>
+      <div class="fact"><p class="mono meta accent"><b>10</b> / People</p><h3>People who look photographed</h3><p class="s">I study optics, so I know how real light falls on skin and hair.</p><p class="mono d">Outdoor portrait, overcast light</p></div>
+      <div class="fact"><p class="mono meta accent"><b>11</b> / People</p><h3>The finish is half the work</h3><p class="s">Left: raw generation. Right: after colour, light and grain.</p><p class="mono d">Raw generation and final grade</p></div>
+      <div class="fact"><p class="mono meta accent"><b>12</b> / People</p><h3>One face across every shoot</h3><p class="s">She doesn&#x27;t exist. I built this character from scratch and keep her consistent across scenes.</p><p class="mono d">Profile at dusk by the sea</p></div>
+      <div class="fact"><p class="mono meta accent"><b>13</b> / People</p><h3>Any location, no travel budget</h3><p class="s">The shoot goes wherever the brief does.</p><p class="mono d">City overlook portrait</p></div>
+      <div class="fact"><p class="mono meta accent"><b>14</b> / People</p><h3>Any look on request</h3><p class="s">Film grain, lens flare and a date stamp from a 2003 compact.</p><p class="mono d">Film look, backlight and lens flare</p></div>
+      <div class="fact"><p class="mono meta accent"><b>15</b> / Illustration</p><h3>Reads at thumbnail size</h3><p class="s">Strong silhouettes and limited palettes, made for posters and covers.</p><p class="mono d">Close-up, hard rim light</p></div>
+      <div class="fact"><p class="mono meta accent"><b>16</b> / Illustration</p><h3>Characters with clean detail</h3><p class="s">Hands, fabric and jewellery that survive a close look.</p><p class="mono d">Spear and butterflies</p></div>
+      <div class="fact"><p class="mono meta accent"><b>17</b> / Illustration</p><h3>A story in one frame</h3><p class="s">Composition and scale carry the scene without a caption.</p><p class="mono d">The flower</p></div>
+      <div class="fact"><p class="mono meta accent"><b>18</b> / Illustration</p><h3>Not only photorealism</h3><p class="s">Painterly, anime or photo: the style follows the brief.</p><p class="mono d">Tram in the rain</p></div>
+      <div class="fact"><p class="mono meta accent"><b>19</b> / Worlds</p><h3>Concepts that stop the scroll</h3><p class="s">Surreal key visuals for campaigns that need one bold image.</p><p class="mono d">Glass sphere and red silk</p></div>
+      <div class="fact"><p class="mono meta accent"><b>20</b> / Worlds</p><h3>Mood is planned, not found</h3><p class="s">Light, haze and bokeh are decided before the first render.</p><p class="mono d">Rooftop at dusk</p></div>
+      <div class="fact"><p class="mono meta accent"><b>21</b> / Worlds</p><h3>3 years inside ComfyUI</h3><p class="s">I build, tune and debug the pipeline myself.</p><p class="mono d">Cabin under the station</p></div>
+      <div class="fact"><p class="mono meta accent"><b>22</b> / Worlds</p><h3>Vertical by default</h3><p class="s">Framed for phone screens, stories and posters.</p><p class="mono d">Winter castle</p></div>
+      <div class="fact"><p class="mono meta accent"><b>23</b> / Worlds</p><h3>Colour under control</h3><p class="s">A frame this red still keeps detail in the shadows and the water.</p><p class="mono d">Stone bridge, autumn</p></div>
+      <div class="fact"><p class="mono meta accent"><b>24</b> / Wildlife</p><h3>A real lens feel</h3><p class="s">Depth of field, falling snow and feather detail.</p><p class="mono d">Snowy owl</p></div>
+      <div class="fact"><p class="mono meta accent"><b>25</b> / Wildlife</p><h3>Small physics sell the shot</h3><p class="s">Backlight, steaming breath and frost on the needles.</p><p class="mono d">Deer, frost and backlight</p></div>
+      <div class="fact"><p class="mono meta accent"><b>26</b> / Wildlife</p><h3>Fur that holds at full size</h3><p class="s">Tap any card to check it at full resolution.</p><p class="mono d">Sleeping fox</p></div>
+    </div>
+    <div class="hud mono" id="hud">
+      <span class="count" id="count">01 / 26</span>
+      <button class="btn" type="button" id="prev" aria-label="Previous card">Prev</button>
+      <button class="btn" type="button" id="next" aria-label="Next card">Next</button>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="services" data-scene="process">
+  <div class="wrap">
+    <div class="scene-head">
+      <p class="mono accent" style="margin:0">What I do</p>
+      <h2>What you can hand me</h2>
+    </div>
+    <ol class="steps">
+      <li><h3>Product and campaign visuals</h3><p>Packshots, flat lays and key visuals for ads and social. The product stays identical from frame to frame.</p></li>
+      <li><h3>AI photoshoots and characters</h3><p>Photoreal people for lifestyle and brand content, including an invented character kept consistent across a whole series.</p></li>
+      <li><h3>Posters, banners and covers</h3><p>Vertical-first artwork with room for a title, readable at thumbnail size.</p></li>
+      <li><h3>Illustration and concept art</h3><p>Anime, painterly and environment work in the style the brief asks for.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="scene" id="all" data-scene="process">
+  <div class="wrap">
+    <div class="scene-head">
+      <p class="mono accent" style="margin:0">All frames</p>
+      <h2>All 26 at a glance</h2>
+      <p class="lede">Tap any frame to open it.</p>
+    </div>
+  </div>
+  <div class="rows">
+    <div class="row"><div class="track"><button class="shot" type="button" data-i="0" data-full="flatlay.webp" data-title="PURE AESTHETICS, flat lay with label sketch" aria-label="Open full size: PURE AESTHETICS, flat lay with label sketch"><img src="t-flatlay.webp" width="860" height="480" alt="Perfume bottle on textured paper beside dried monstera leaves and a pencil sketch of the bottle" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="1" data-full="perfume-dark.webp" data-title="Underwater key visual, dark" aria-label="Open full size: Underwater key visual, dark"><img src="t-perfume-dark.webp" width="645" height="860" alt="Perfume bottle underwater among white roses on a dark teal background" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="2" data-full="perfume-light.webp" data-title="Underwater key visual, light" aria-label="Open full size: Underwater key visual, light"><img src="t-perfume-light.webp" width="480" height="860" alt="Perfume bottle under the water surface among white roses, bright version" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="3" data-full="surface.webp" data-title="At the surface" aria-label="Open full size: At the surface"><img src="t-surface.webp" width="480" height="860" alt="Perfume bottle just under the water surface among cream roses and peonies" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="4" data-full="flora.webp" data-title="Flora Mist, floating bottle" aria-label="Open full size: Flora Mist, floating bottle"><img src="t-flora.webp" width="860" height="480" alt="Pink perfume bottle floating among petals and dried flowers on a soft blurred background" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="5" data-full="can-splash.webp" data-title="Solaris, studio splash" aria-label="Open full size: Solaris, studio splash"><img src="t-can-splash.webp" width="491" height="860" alt="Drink can with engraved citrus artwork in a red splash with orange slices" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="6" data-full="can-stone.webp" data-title="Solaris, sun and stone" aria-label="Open full size: Solaris, sun and stone"><img src="t-can-stone.webp" width="491" height="860" alt="Drink can on a travertine ledge in hard sunlight beside half an orange" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="7" data-full="can-night.webp" data-title="Solaris, night street" aria-label="Open full size: Solaris, night street"><img src="t-can-night.webp" width="491" height="860" alt="Drink can on wet asphalt at night with blurred city lights behind" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="8" data-full="can-ice.webp" data-title="Solaris, on ice" aria-label="Open full size: Solaris, on ice"><img src="t-can-ice.webp" width="491" height="860" alt="Close-up of a drink can lying in ice under dripping icicles" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="0" data-full="flatlay.webp" data-title="PURE AESTHETICS, flat lay with label sketch" aria-label="Open full size: PURE AESTHETICS, flat lay with label sketch"><img src="t-flatlay.webp" width="860" height="480" alt="Perfume bottle on textured paper beside dried monstera leaves and a pencil sketch of the bottle" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="1" data-full="perfume-dark.webp" data-title="Underwater key visual, dark" aria-label="Open full size: Underwater key visual, dark"><img src="t-perfume-dark.webp" width="645" height="860" alt="Perfume bottle underwater among white roses on a dark teal background" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="2" data-full="perfume-light.webp" data-title="Underwater key visual, light" aria-label="Open full size: Underwater key visual, light"><img src="t-perfume-light.webp" width="480" height="860" alt="Perfume bottle under the water surface among white roses, bright version" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="3" data-full="surface.webp" data-title="At the surface" aria-label="Open full size: At the surface"><img src="t-surface.webp" width="480" height="860" alt="Perfume bottle just under the water surface among cream roses and peonies" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="4" data-full="flora.webp" data-title="Flora Mist, floating bottle" aria-label="Open full size: Flora Mist, floating bottle"><img src="t-flora.webp" width="860" height="480" alt="Pink perfume bottle floating among petals and dried flowers on a soft blurred background" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="5" data-full="can-splash.webp" data-title="Solaris, studio splash" aria-label="Open full size: Solaris, studio splash"><img src="t-can-splash.webp" width="491" height="860" alt="Drink can with engraved citrus artwork in a red splash with orange slices" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="6" data-full="can-stone.webp" data-title="Solaris, sun and stone" aria-label="Open full size: Solaris, sun and stone"><img src="t-can-stone.webp" width="491" height="860" alt="Drink can on a travertine ledge in hard sunlight beside half an orange" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="7" data-full="can-night.webp" data-title="Solaris, night street" aria-label="Open full size: Solaris, night street"><img src="t-can-night.webp" width="491" height="860" alt="Drink can on wet asphalt at night with blurred city lights behind" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="8" data-full="can-ice.webp" data-title="Solaris, on ice" aria-label="Open full size: Solaris, on ice"><img src="t-can-ice.webp" width="491" height="860" alt="Close-up of a drink can lying in ice under dripping icicles" loading="lazy" decoding="async"></button></div></div>
+    <div class="row rev"><div class="track"><button class="shot" type="button" data-i="9" data-full="field.webp" data-title="Outdoor portrait, overcast light" aria-label="Open full size: Outdoor portrait, overcast light"><img src="t-field.webp" width="860" height="484" alt="Smiling woman with wind-blown hair in a field, wind turbine in the background" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="10" data-full="pair.webp" data-title="Raw generation and final grade" aria-label="Open full size: Raw generation and final grade"><img src="t-pair.webp" width="860" height="656" alt="The same portrait twice: flat raw generation on the left, warm graded final on the right" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="11" data-full="dusk.webp" data-title="Profile at dusk by the sea" aria-label="Open full size: Profile at dusk by the sea"><img src="t-dusk.webp" width="642" height="860" alt="Woman in a knitted sweater in profile against the sea at dusk" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="12" data-full="overlook.webp" data-title="City overlook portrait" aria-label="Open full size: City overlook portrait"><img src="t-overlook.webp" width="642" height="860" alt="Woman in a black T-shirt leaning on a stone parapet above a river and city" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="13" data-full="film.webp" data-title="Film look, backlight and lens flare" aria-label="Open full size: Film look, backlight and lens flare"><img src="t-film.webp" width="645" height="860" alt="Woman seen from behind facing the sea in strong backlight, film-style date stamp" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="14" data-full="eye.webp" data-title="Close-up, hard rim light" aria-label="Open full size: Close-up, hard rim light"><img src="t-eye.webp" width="538" height="860" alt="Anime close-up of a girl with pink hair looking through her fingers out of darkness" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="15" data-full="butterflies.webp" data-title="Spear and butterflies" aria-label="Open full size: Spear and butterflies"><img src="t-butterflies.webp" width="430" height="860" alt="Anime character with long blue hair holding a spear among glowing butterflies at night" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="16" data-full="knight.webp" data-title="The flower" aria-label="Open full size: The flower"><img src="t-knight.webp" width="553" height="860" alt="A girl in white offering a glowing flower to a huge bloodstained knight" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="17" data-full="tram.webp" data-title="Tram in the rain" aria-label="Open full size: Tram in the rain"><img src="t-tram.webp" width="430" height="860" alt="Painterly evening street in the rain with a tram and people under umbrellas" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="9" data-full="field.webp" data-title="Outdoor portrait, overcast light" aria-label="Open full size: Outdoor portrait, overcast light"><img src="t-field.webp" width="860" height="484" alt="Smiling woman with wind-blown hair in a field, wind turbine in the background" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="10" data-full="pair.webp" data-title="Raw generation and final grade" aria-label="Open full size: Raw generation and final grade"><img src="t-pair.webp" width="860" height="656" alt="The same portrait twice: flat raw generation on the left, warm graded final on the right" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="11" data-full="dusk.webp" data-title="Profile at dusk by the sea" aria-label="Open full size: Profile at dusk by the sea"><img src="t-dusk.webp" width="642" height="860" alt="Woman in a knitted sweater in profile against the sea at dusk" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="12" data-full="overlook.webp" data-title="City overlook portrait" aria-label="Open full size: City overlook portrait"><img src="t-overlook.webp" width="642" height="860" alt="Woman in a black T-shirt leaning on a stone parapet above a river and city" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="13" data-full="film.webp" data-title="Film look, backlight and lens flare" aria-label="Open full size: Film look, backlight and lens flare"><img src="t-film.webp" width="645" height="860" alt="Woman seen from behind facing the sea in strong backlight, film-style date stamp" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="14" data-full="eye.webp" data-title="Close-up, hard rim light" aria-label="Open full size: Close-up, hard rim light"><img src="t-eye.webp" width="538" height="860" alt="Anime close-up of a girl with pink hair looking through her fingers out of darkness" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="15" data-full="butterflies.webp" data-title="Spear and butterflies" aria-label="Open full size: Spear and butterflies"><img src="t-butterflies.webp" width="430" height="860" alt="Anime character with long blue hair holding a spear among glowing butterflies at night" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="16" data-full="knight.webp" data-title="The flower" aria-label="Open full size: The flower"><img src="t-knight.webp" width="553" height="860" alt="A girl in white offering a glowing flower to a huge bloodstained knight" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="17" data-full="tram.webp" data-title="Tram in the rain" aria-label="Open full size: Tram in the rain"><img src="t-tram.webp" width="430" height="860" alt="Painterly evening street in the rain with a tram and people under umbrellas" loading="lazy" decoding="async"></button></div></div>
+    <div class="row slow"><div class="track"><button class="shot" type="button" data-i="18" data-full="sphere.webp" data-title="Glass sphere and red silk" aria-label="Open full size: Glass sphere and red silk"><img src="t-sphere.webp" width="573" height="860" alt="Glass sphere holding an island abbey above waves of red silk, city lights behind" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="19" data-full="paris.webp" data-title="Rooftop at dusk" aria-label="Open full size: Rooftop at dusk"><img src="t-paris.webp" width="484" height="860" alt="Person sitting on a rooftop at dusk above a city of blurred lights" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="20" data-full="cabin.webp" data-title="Cabin under the station" aria-label="Open full size: Cabin under the station"><img src="t-cabin.webp" width="538" height="860" alt="Snowbound cabin with lit windows below a cliff-top station under a full moon" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="21" data-full="castle.webp" data-title="Winter castle" aria-label="Open full size: Winter castle"><img src="t-castle.webp" width="484" height="860" alt="Gothic castle on a snowy rock above a stone bridge in falling snow" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="22" data-full="bridge.webp" data-title="Stone bridge, autumn" aria-label="Open full size: Stone bridge, autumn"><img src="t-bridge.webp" width="860" height="645" alt="Old stone arch bridge over a still river surrounded by red maples" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="23" data-full="owl.webp" data-title="Snowy owl" aria-label="Open full size: Snowy owl"><img src="t-owl.webp" width="860" height="573" alt="Snowy owl on a wooden fence post in a snowstorm" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="24" data-full="deer.webp" data-title="Deer, frost and backlight" aria-label="Open full size: Deer, frost and backlight"><img src="t-deer.webp" width="484" height="860" alt="Stag in a snowy pine forest, breath steaming in low sunlight" loading="lazy" decoding="async"></button><button class="shot" type="button" data-i="25" data-full="fox.webp" data-title="Sleeping fox" aria-label="Open full size: Sleeping fox"><img src="t-fox.webp" width="645" height="860" alt="Red fox curled up asleep on wet autumn leaves" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="18" data-full="sphere.webp" data-title="Glass sphere and red silk" aria-label="Open full size: Glass sphere and red silk"><img src="t-sphere.webp" width="573" height="860" alt="Glass sphere holding an island abbey above waves of red silk, city lights behind" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="19" data-full="paris.webp" data-title="Rooftop at dusk" aria-label="Open full size: Rooftop at dusk"><img src="t-paris.webp" width="484" height="860" alt="Person sitting on a rooftop at dusk above a city of blurred lights" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="20" data-full="cabin.webp" data-title="Cabin under the station" aria-label="Open full size: Cabin under the station"><img src="t-cabin.webp" width="538" height="860" alt="Snowbound cabin with lit windows below a cliff-top station under a full moon" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="21" data-full="castle.webp" data-title="Winter castle" aria-label="Open full size: Winter castle"><img src="t-castle.webp" width="484" height="860" alt="Gothic castle on a snowy rock above a stone bridge in falling snow" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="22" data-full="bridge.webp" data-title="Stone bridge, autumn" aria-label="Open full size: Stone bridge, autumn"><img src="t-bridge.webp" width="860" height="645" alt="Old stone arch bridge over a still river surrounded by red maples" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="23" data-full="owl.webp" data-title="Snowy owl" aria-label="Open full size: Snowy owl"><img src="t-owl.webp" width="860" height="573" alt="Snowy owl on a wooden fence post in a snowstorm" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="24" data-full="deer.webp" data-title="Deer, frost and backlight" aria-label="Open full size: Deer, frost and backlight"><img src="t-deer.webp" width="484" height="860" alt="Stag in a snowy pine forest, breath steaming in low sunlight" loading="lazy" decoding="async"></button><button class="shot dup" type="button" tabindex="-1" aria-hidden="true" data-i="25" data-full="fox.webp" data-title="Sleeping fox" aria-label="Open full size: Sleeping fox"><img src="t-fox.webp" width="645" height="860" alt="Red fox curled up asleep on wet autumn leaves" loading="lazy" decoding="async"></button></div></div>
+  </div>
+</section>
+
+<section class="scene" id="process" data-scene="process">
+  <div class="wrap">
+    <div class="scene-head">
+      <p class="mono accent" style="margin:0">How I work</p>
+      <h2>From idea to final frame</h2>
+    </div>
+    <div class="two">
+      <ol class="steps">
+        <li><h3>Idea</h3><p>A reference or my own concept. Mood, composition and light are decided before the first render.</p></li>
+        <li><h3>Workflow</h3><p>Web tools run on instructions I prepared in advance. Locally in ComfyUI I pick the sampler and scheduler for the model and the task.</p></li>
+        <li><h3>Variations</h3><p>Batches with a seed sweep, or a locked seed and a changing prompt, so only one thing moves at a time.</p></li>
+        <li><h3>Selection</h3><p>Anatomy, eyes, emotion and composition decide which frames stay.</p></li>
+        <li><h3>Finish</h3><p>Colour and light correction, then grain and noise shaped until the frame reads as a photograph.</p></li>
+      </ol>
+      <div class="side">
+        <p>I work as an engineer at the Institute of Physics, NAS of Ukraine, and study optics for my master's degree. Knowing how light and lenses behave is what I lean on for photorealism.</p>
+        <ul class="chips" aria-label="Tools">
+          <li>ComfyUI</li><li>Qwen Image 2.1</li><li>Krea 2</li><li>LoRA training</li><li>Nano Banana</li><li>Google Flow</li><li>Photoshop</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene contact" id="contact" data-scene="contact">
+  <div class="wrap">
+    <div class="scene-head">
+      <p class="mono accent" style="margin:0">Contact</p>
+      <h2>Have a product, a character or a poster in mind?</h2>
+      <p class="lede">I'm looking for a remote role on a creative team and take on commissioned work.</p>
+    </div>
+    <div class="mail">
+      <a href="mailto:andrewtymofeev@gmail.com">andrewtymofeev@gmail.com</a>
+      <button class="btn" type="button" id="copy">Copy email</button>
+    </div>
+    <p class="mono avail">Remote · full-time or contract · English B2 · Kyiv time</p>
+    <div class="links">
+      <a class="btn" href="https://t.me/arbethon" target="_blank" rel="noopener">Telegram @arbethon</a>
+      <a class="btn" href="https://www.linkedin.com/in/andrew-tymofeiev/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>All images on this page are AI-generated by Andrew Tymofeiev. PURE AESTHETICS, Flora Mist and Solaris are concept brands made for this portfolio.</p>
+    <p class="mono">2026</p>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lb-bar">
+    <div class="lb-nav">
+      <button class="btn" type="button" id="lb-prev" aria-label="Previous image">Prev</button>
+      <button class="btn" type="button" id="lb-next" aria-label="Next image">Next</button>
+    </div>
+    <button class="btn" type="button" id="lb-close">Close</button>
+  </div>
+  <div class="lb-stage"><img id="lb-img" alt=""></div>
+  <div class="lb-cap"><span id="lb-title"></span><span class="d" id="lb-hint">Tap the image to zoom and scroll</span></div>
+</div>
+
+<script>
+(function () {
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var PHI = 1.6180339887;
+  var body = document.body;
+
+  /* ---------- lightbox ---------- */
+  var shots = Array.prototype.slice.call(document.querySelectorAll(".shot:not(.dup)"));
+  var lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img");
+  var lbTitle = document.getElementById("lb-title");
+  var closeBtn = document.getElementById("lb-close"), lbStage = lb.querySelector(".lb-stage");
+  lbImg.addEventListener("click", function (e) {
+    e.stopPropagation();
+    var on = lbStage.classList.toggle("zoom");
+    if (on) { lbStage.scrollTop = 0; lbStage.scrollLeft = Math.max(0, (lbStage.scrollWidth - lbStage.clientWidth) / 2); }
+  });
+  var lbCur = -1, opener = null;
+  function lbShow(i) {
+    lbCur = (i + shots.length) % shots.length;
+    var s = shots[lbCur];
+    lbStage.classList.remove("zoom");
+    lbImg.classList.add("swap");
+    lbImg.onload = function () { requestAnimationFrame(function () { requestAnimationFrame(function () { lbImg.classList.remove("swap"); }); }); };
+    lbImg.src = s.dataset.full;
+    if (lbImg.complete) lbImg.onload();
+    lbImg.alt = s.querySelector("img").alt;
+    lbTitle.textContent = s.dataset.title;
+  }
+  function lbOpen(i, from) { opener = from || shots[i]; lbShow(i); lb.classList.add("open"); document.documentElement.style.overflow = "hidden"; closeBtn.focus(); }
+  function lbClose() { lb.classList.remove("open"); document.documentElement.style.overflow = ""; if (opener) opener.focus({ preventScroll: true }); }
+  shots.forEach(function (s, i) { s.addEventListener("click", function () { lbOpen(i); }); });
+  document.querySelectorAll(".shot.dup").forEach(function (d) { d.addEventListener("click", function () { lbOpen(parseInt(d.dataset.i, 10)); }); });
+  closeBtn.addEventListener("click", lbClose);
+  document.getElementById("lb-prev").addEventListener("click", function () { lbShow(lbCur - 1); });
+  document.getElementById("lb-next").addEventListener("click", function () { lbShow(lbCur + 1); });
+  lb.addEventListener("click", function (e) { if (e.target === lb || e.target.classList.contains("lb-stage")) lbClose(); });
+  document.addEventListener("keydown", function (e) {
+    if (!lb.classList.contains("open")) return;
+    if (e.key === "Escape") lbClose();
+    if (e.key === "ArrowLeft") lbShow(lbCur - 1);
+    if (e.key === "ArrowRight") lbShow(lbCur + 1);
+  });
+
+  /* ---------- wheel ---------- */
+  var wheel = document.getElementById("work"), stage = document.getElementById("stage");
+  var cards = Array.prototype.slice.call(stage.querySelectorAll(".card"));
+  var facts = Array.prototype.slice.call(stage.querySelectorAll(".fact"));
+  var factsBox = document.getElementById("facts"), hud = document.getElementById("hud"), count = document.getElementById("count");
+  var bar = document.getElementById("progress");
+  var N = cards.length;
+  var flips = cards.map(function (c) { return c.querySelector(".flip"); });
+  var fronts = cards.map(function (c) { return c.querySelector(".front"); });
+  var ars = cards.map(function (c) { return parseFloat(c.dataset.ar); });
+  var L = null, step = 600, cur = 0, target = 0, raf = 0, active = -1;
+  var STEP_ANGLE = Math.PI / 3;                       // 60 degrees between neighbours
+  var GROW = Math.pow(PHI, STEP_ANGLE / (Math.PI / 2)); // golden spiral: radius grows by phi every quarter turn
+
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+
+  function layout() {
+    var W = stage.clientWidth, H = stage.clientHeight;
+    var barH = 52, Hu = H - barH, pad = Math.max(16, Math.min(40, W * 0.04));
+    var portrait = W / H < 0.95;
+    var A, C, boxW, boxH;
+    if (portrait) {
+      // golden split: card above the 61.8% line, text below; spiral eye at lower right
+      boxW = W * 0.70; boxH = Hu * 0.50;
+      A = { x: W * 0.45, y: barH + Hu * 0.325 };
+      C = { x: W * 0.86, y: barH + Hu * 0.655 };
+      factsBox.style.cssText = "left:" + pad + "px;width:" + Math.round(W * 0.70) + "px;bottom:64px;height:" + Math.round(Hu * 0.30) + "px";
+      hud.style.cssText = "left:" + pad + "px;right:" + pad + "px;bottom:14px;justify-content:space-between";
+    } else {
+      // golden split: active card in the left 61.8%, spiral eye on the golden point, text lower right
+      boxW = W * 0.40; boxH = Hu * 0.70;
+      A = { x: W * 0.29, y: barH + Hu * 0.54 };
+      C = { x: W * 0.60, y: barH + Hu * 0.45 };
+      factsBox.style.cssText = "left:" + Math.round(W * 0.60) + "px;right:" + pad + "px;bottom:" + Math.round(H * 0.11 + 30) + "px;height:" + Math.round(Hu * 0.4) + "px";
+      hud.style.cssText = "left:" + Math.round(W * 0.60) + "px;bottom:" + Math.round(H * 0.06) + "px";
+    }
+    var dx = A.x - C.x, dy = A.y - C.y;
+    L = { W: W, H: H, C: C, ra: Math.sqrt(dx * dx + dy * dy), th: Math.atan2(dy, dx), boxW: boxW, boxH: boxH };
+    cards.forEach(function (c, i) {
+      var w = boxW, h = w / ars[i];
+      if (h > boxH) { h = boxH; w = h * ars[i]; }
+      c._w = w; c._h = h;
+      c.style.width = w.toFixed(1) + "px"; c.style.height = h.toFixed(1) + "px";
+    });
+    step = Math.round(H * 0.72);
+    wheel.style.height = Math.round((N - 1) * step + H) + "px";
+  }
+
+  function render(p) {
+    var a = clamp(Math.round(p), 0, N - 1);
+    for (var i = 0; i < N; i++) {
+      var c = cards[i], t = i - p;
+      if (t < -0.75 || t > 9.5 || (calm && Math.abs(t) > 0.5)) { if (c._on) { c.style.display = "none"; c._on = false; } continue; }
+      if (!c._on) { c.style.display = "block"; c._on = true; }
+      var img = fronts[i].firstElementChild;
+      if (!img.src && img.dataset.src) img.src = img.dataset.src;
+      var th = L.th + t * STEP_ANGLE;
+      var r = L.ra * Math.pow(GROW, -t);
+      var s = Math.pow(GROW, -t);
+      var x = L.C.x + r * Math.cos(th), y = L.C.y + r * Math.sin(th);
+      var rz = t * 60 * (t < 0 ? 0.5 : 1);
+      var f = clamp((t - 0.06) / 0.6, 0, 1); f = f * f * (3 - 2 * f);
+      var op = t < 0 ? clamp(1 + t / 0.7, 0, 1) : clamp(1.2 - t * 0.12, 0, 1);
+      if (calm) { rz = 0; f = 0; s = 1; x = L.C.x + L.ra * Math.cos(L.th); y = L.C.y + L.ra * Math.sin(L.th); op = 1; }
+      c.style.transform = "translate3d(" + (x - c._w / 2).toFixed(1) + "px," + (y - c._h / 2).toFixed(1) + "px,0) rotate(" + rz.toFixed(2) + "deg) scale(" + s.toFixed(4) + ")";
+      c.style.opacity = op.toFixed(3);
+      c.style.zIndex = String(20 - Math.round(Math.abs(t) * 2));
+      flips[i].style.transform = "rotateY(" + (f * 180).toFixed(1) + "deg)";
+    }
+    for (var j = 0; j < N; j++) {
+      var tt = j - p, fo = clamp(1 - Math.abs(tt) * 2.4, 0, 1), fe = facts[j];
+      if (fo <= 0) { if (fe._on) { fe.style.opacity = "0"; fe.style.visibility = "hidden"; fe._on = false; } continue; }
+      fe._on = true; fe.style.visibility = "visible";
+      fe.style.opacity = fo.toFixed(3);
+      fe.style.transform = "translate3d(0," + (calm ? 0 : tt * 46).toFixed(1) + "px,0)";
+    }
+    if (a !== active) {
+      active = a;
+      count.textContent = (a < 9 ? "0" : "") + (a + 1) + " / " + N;
+      fronts.forEach(function (b, k) { b.tabIndex = k === a ? 0 : -1; });
+    }
+  }
+
+  var inWheel = false;
+  function measure() {
+    var r = wheel.getBoundingClientRect(), H = L.H;
+    target = clamp(-r.top / step, 0, N - 1);
+    inWheel = r.top < H * 0.5 && r.bottom > H * 0.5;
+    if (inWheel) body.dataset.scene = cards[clamp(Math.round(target), 0, N - 1)].dataset.cat;
+    var doc = document.documentElement, max = doc.scrollHeight - window.innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? clamp(window.scrollY / max, 0, 1) : 0).toFixed(4) + ")";
+  }
+  function tick() {
+    raf = 0;
+    cur = calm ? target : cur + (target - cur) * 0.13;
+    if (Math.abs(target - cur) < 0.0012) cur = target;
+    render(cur);
+    if (cur !== target) raf = requestAnimationFrame(tick);
+  }
+  function kick() { measure(); if (!raf) raf = requestAnimationFrame(tick); }
+  function goTo(i) {
+    i = clamp(i, 0, N - 1);
+    var top = wheel.getBoundingClientRect().top + window.scrollY + i * step;
+    window.scrollTo({ top: top, behavior: calm ? "auto" : "smooth" });
+  }
+  cards.forEach(function (c, i) {
+    c.addEventListener("click", function () {
+      if (i === clamp(Math.round(cur), 0, N - 1)) lbOpen(i, fronts[i]); else goTo(i);
+    });
+  });
+  document.getElementById("prev").addEventListener("click", function () { goTo(Math.round(target) - 1); });
+  document.getElementById("next").addEventListener("click", function () {
+    if (Math.round(target) >= N - 1) document.getElementById("all").scrollIntoView({ behavior: calm ? "auto" : "smooth" }); else goTo(Math.round(target) + 1);
+  });
+  layout(); measure(); cur = target; render(cur);
+  window.addEventListener("scroll", kick, { passive: true });
+  window.addEventListener("resize", function () { layout(); measure(); cur = target; render(cur); });
+
+  /* ---------- section tint and reveals outside the wheel ---------- */
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting && !inWheel) body.dataset.scene = e.target.dataset.scene; });
+    }, { rootMargin: "-45% 0px -45% 0px" });
+    document.querySelectorAll("section[data-scene]").forEach(function (s) { io.observe(s); });
+    if (!calm) {
+      var ro = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); ro.unobserve(e.target); } });
+      }, { rootMargin: "0px 0px -6% 0px", threshold: 0.05 });
+      document.querySelectorAll(".scene-head, .rows, .steps li, .side, .mail, .avail, .links").forEach(function (t) {
+        t.classList.add("reveal");
+        ro.observe(t);
+      });
+    }
+  }
+
+  /* ---------- in-page links and copy ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      var el = document.getElementById(a.getAttribute("href").slice(1));
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: calm ? "auto" : "smooth" });
+    });
+  });
+  var copy = document.getElementById("copy");
+  copy.addEventListener("click", function () {
+    var done = function () { copy.textContent = "Copied"; setTimeout(function () { copy.textContent = "Copy email"; }, 1600); };
+    try { navigator.clipboard.writeText("andrewtymofeev@gmail.com").then(done, function () { copy.textContent = "Select and copy"; }); }
+    catch (err) { copy.textContent = "Select and copy"; }
+  });
+})();
+</script>
+</body>
+</html>
