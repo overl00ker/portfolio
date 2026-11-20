@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Andrew Tymofeev — AI Visual Artist &amp; Worldbuilder</title>
   <meta name="description" content="New worlds, living characters, fantasy lore, and commercial visuals crafted with AI and optical precision by Andrew Tymofeev.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c0e11'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23e5b869'/%3E%3C/svg%3E">
   <script>document.documentElement.classList.add("js");</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,6 +58,8 @@
 
     h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: .015em; margin: 0; text-transform: uppercase; }
     html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] h3 { font-weight: 400; }
+    /* Anton has no Cyrillic: in UA use Oswald for the whole heading, not glyph-by-glyph fallback */
+    html[lang="uk"] h1, html[lang="uk"] h2, html[lang="uk"] h3 { font-family: "Oswald", "Arial Narrow", sans-serif; }
     html[lang="uk"] .hero h1 { font-size: clamp(34px, 7.6vw, 104px); line-height: 1.12; }
     html[lang="uk"] .beat-title { font-size: clamp(25px, 4.3vw, 60px); line-height: 1.12; }
     html[lang="uk"] .fact h3 { font-size: clamp(19px, 2.7vw, 40px); line-height: 1.12; }
@@ -676,6 +679,7 @@
       flex: 1 1 auto;
       min-height: 0;
       display: grid;
+      grid-template: minmax(0, 1fr) / minmax(0, 1fr);
       place-items: center;
       overflow: auto;
       cursor: zoom-in;
@@ -687,7 +691,7 @@
       object-fit: contain;
       transition: transform .25s ease;
     }
-    .lb-stage.zoom { cursor: zoom-out; }
+    .lb-stage.zoom { cursor: zoom-out; grid-template: auto / auto; }
     .lb-stage.zoom img { max-width: none; max-height: none; width: min(1400px, 160vw); }
     .lb-bar {
       display: flex;
@@ -710,8 +714,8 @@
     }
     .tw-caret.on { opacity: .95; }
 
-    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
-    .reveal.in { opacity: 1; transform: none; }
+    .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+    .js .reveal.in { opacity: 1; transform: none; }
 
     @media (max-width: 960px) {
       nav.links a[href="#services"], nav.links a[href="#process"] { display: none; }
@@ -728,7 +732,7 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .track { animation: none; }
-      .reveal { opacity: 1; transform: none; transition: none; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
     }
   </style>
 </head>
@@ -756,9 +760,9 @@
   <main>
     <section class="hero" id="top">
       <div>
-        <div class="hero-eyebrow mono" data-i18n="hero_eyebrow">AI Visual Artist · Worldbuilder · Optics</div>
+        <div class="hero-eyebrow mono" data-i18n="hero_eyebrow">AI Visual Artist · AI Content Creator · Worldbuilder</div>
         <h1 data-i18n="hero_h1">Dreams and ideas, brought to life with AI.</h1>
-        <p class="hero-lead" data-i18n="hero_lead">Product campaigns, original characters, fantasy worlds, and atmospheric scenes — crafted with real optical precision.</p>
+        <p class="hero-lead" data-i18n="hero_lead">All limitations are just in your imagination.</p>
       </div>
       <div class="hero-bottom">
         <div class="hero-stats mono">
@@ -777,7 +781,7 @@
     <section class="wheel" id="work" aria-label="Interactive portfolio journey">
       <div class="stage">
         <div class="stage-glow" aria-hidden="true"></div>
-        <div class="card" data-idx="0" data-stop="1" data-cat="product" data-ar="0.75" data-motion="fan-left" data-full="https://raw.githubusercontent.com/overl00ker/portfolio/main/flatlay.webp" data-label="PURE AESTHETICS — Flat lay & sketch">
+        <div class="card" data-idx="0" data-stop="1" data-cat="product" data-ar="1.7917" data-motion="fan-left" data-full="https://raw.githubusercontent.com/overl00ker/portfolio/main/flatlay.webp" data-label="PURE AESTHETICS — Flat lay & sketch">
           <div class="flip">
             <button type="button" class="face front" aria-label="Open full frame: PURE AESTHETICS — Flat lay & sketch">
               <img src="https://raw.githubusercontent.com/overl00ker/portfolio/main/t-flatlay.webp" fetchpriority="high" alt="PURE AESTHETICS — Flat lay & sketch" decoding="async">
@@ -804,7 +808,7 @@
             <div class="face back" aria-hidden="true"><b>03</b></div>
           </div>
         </div>
-        <div class="card" data-idx="3" data-stop="4" data-cat="product" data-ar="0.75" data-motion="depth" data-full="https://raw.githubusercontent.com/overl00ker/portfolio/main/flora.webp" data-label="Flora Mist — Floating bottle">
+        <div class="card" data-idx="3" data-stop="4" data-cat="product" data-ar="1.7917" data-motion="depth" data-full="https://raw.githubusercontent.com/overl00ker/portfolio/main/flora.webp" data-label="Flora Mist — Floating bottle">
           <div class="flip">
             <button type="button" class="face front" aria-label="Open full frame: Flora Mist — Floating bottle">
               <img src="https://raw.githubusercontent.com/overl00ker/portfolio/main/t-flora.webp" fetchpriority="high" alt="Flora Mist — Floating bottle" decoding="async">
@@ -876,7 +880,7 @@
             <div class="face back" aria-hidden="true"><b>11</b></div>
           </div>
         </div>
-        <div class="card" data-idx="11" data-stop="13" data-cat="people" data-ar="1.333" data-motion="depth" data-full="https://raw.githubusercontent.com/overl00ker/portfolio/main/pair.webp" data-label="Raw vs. final grade">
+        <div class="card" data-idx="11" data-stop="13" data-cat="people" data-ar="1.311" data-motion="depth" data-full="https://raw.githubusercontent.com/overl00ker/portfolio/main/pair.webp" data-label="Raw vs. final grade">
           <div class="flip">
             <button type="button" class="face front" aria-label="Open full frame: Raw vs. final grade">
               <img data-src="https://raw.githubusercontent.com/overl00ker/portfolio/main/t-pair.webp" alt="Raw vs. final grade" decoding="async">
@@ -957,15 +961,15 @@
             <div class="face back" aria-hidden="true"><b>20</b></div>
           </div>
         </div>
-        <div class="beats" id="beats" aria-live="polite">
+        <div class="beats" id="beats">
         <div class="beat" data-stop="0" data-beat-idx="0">
-          <p class="beat-eye mono">CHAPTER I · PRODUCTS</p>
-          <h3 class="beat-title">What about a product with no studio limits?</h3>
+          <p class="beat-eye mono">CHAPTER I · PRODUCT</p>
+          <h3 class="beat-title">Campaign visuals without studio limits?</h3>
           <p class="beat-sub">One label, any scene, clean light.</p>
         </div>
         <div class="beat" data-stop="8" data-beat-idx="1">
           <p class="beat-eye mono">CHAPTER II · CHARACTERS</p>
-          <h3 class="beat-title">What about a character who never existed?</h3>
+          <h3 class="beat-title">What about an imaginary character?</h3>
           <p class="beat-sub">One face across drama, fashion, and everyday light.</p>
         </div>
         <div class="beat" data-stop="15" data-beat-idx="2">
@@ -979,125 +983,125 @@
           <p class="beat-sub">Surreal concepts, quiet rooftops, frozen mountain dawns.</p>
         </div>
         </div>
-        <div class="facts" id="facts" aria-live="polite">
+        <div class="facts" id="facts">
         <div class="fact" data-stop="1" data-card-idx="0">
-          <p class="kicker mono">01 · PRODUCT</p>
-          <h3>From sketch to campaign</h3>
-          <p class="s">One product and label, identical in every frame.</p>
+          <p class="kicker mono">01 · IDEA</p>
+          <h3>Product still on paper?</h3>
+          <p class="s">Turn a rough sketch into a finished flat lay with zero prototypes.</p>
           <p class="d mono">PURE AESTHETICS — Flat lay & sketch</p>
         </div>
         <div class="fact" data-stop="2" data-card-idx="1">
-          <p class="kicker mono">02 · NEW ANGLE</p>
-          <h3>Same product, underwater</h3>
-          <p class="s">Refracted light at 2880 × 3840 — no studio tank needed.</p>
+          <p class="kicker mono">02 · ANGLE</p>
+          <h3>Let's try another angle</h3>
+          <p class="s">Drop the bottle into dark water and petals — no studio tank needed.</p>
           <p class="d mono">PURE AESTHETICS — Underwater, dark</p>
         </div>
         <div class="fact" data-stop="3" data-card-idx="2">
           <p class="kicker mono">03 · CAMPAIGN</p>
-          <h3>Product and model in one frame</h3>
-          <p class="s">Sharp label, natural skin, clean hand grip.</p>
+          <h3>Now add a human touch</h3>
+          <p class="s">Real skin, natural grip, and crisp lettering in a single frame.</p>
           <p class="d mono">PURE AESTHETICS — Campaign portrait</p>
         </div>
         <div class="fact" data-stop="4" data-card-idx="3">
           <p class="kicker mono">04 · MOOD</p>
-          <h3>Another brand, another mood</h3>
-          <p class="s">Botanical haze and floating glass built around the product.</p>
+          <h3>New brand, new gravity</h3>
+          <p class="s">Weightless glass and botanical haze shaped around the scent.</p>
           <p class="d mono">Flora Mist — Floating bottle</p>
         </div>
         <div class="fact" data-stop="5" data-card-idx="4">
-          <p class="kicker mono">05 · PRECISION</p>
-          <h3>Sharp text on curved packaging</h3>
-          <p class="s">Lettering holds cleanly even in high-speed splash motion.</p>
+          <p class="kicker mono">05 · MOTION</p>
+          <h3>What if we add speed?</h3>
+          <p class="s">Frozen berry splash and flying ice — curved print stays razor sharp.</p>
           <p class="d mono">Solaris — Studio splash</p>
         </div>
         <div class="fact" data-stop="6" data-card-idx="5">
-          <p class="kicker mono">06 · NIGHT SCENE</p>
-          <h3>Same product, night rain</h3>
-          <p class="s">Wet asphalt and street reflections without losing print clarity.</p>
+          <p class="kicker mono">06 · NIGHT</p>
+          <h3>Take it to a rainy street</h3>
+          <p class="s">Neon bokeh, rain droplets, and wet asphalt instead of a sterile backdrop.</p>
           <p class="d mono">Solaris — Night street & rain</p>
         </div>
         <div class="fact" data-stop="7" data-card-idx="6">
           <p class="kicker mono">07 · LIFESTYLE</p>
-          <h3>From packshot to lifestyle</h3>
-          <p class="s">Clean studio product moved straight into a natural hand.</p>
+          <h3>And finally — right in hand</h3>
+          <p class="s">A warm everyday moment that feels real at first glance.</p>
           <p class="d mono">Solaris — In hand</p>
         </div>
         <div class="fact" data-stop="9" data-card-idx="7">
-          <p class="kicker mono">08 · OPTICS</p>
-          <h3>Photographed, not generated</h3>
-          <p class="s">Golden-hour light, real skin texture, rim-lit stray hair.</p>
+          <p class="kicker mono">08 · PORTRAIT</p>
+          <h3>Can you tell it's not a real photo?</h3>
+          <p class="s">Golden-hour warmth, real skin pores, and backlit stray hair.</p>
           <p class="d mono">Original character — Golden hour</p>
         </div>
         <div class="fact" data-stop="10" data-card-idx="8">
-          <p class="kicker mono">09 · LIGHTING</p>
-          <h3>Complex morning light</h3>
-          <p class="s">Hard window blinds, soft shadows, natural hands.</p>
+          <p class="kicker mono">09 · MORNING</p>
+          <h3>Now put her in a morning kitchen</h3>
+          <p class="s">Window-blind stripes, warm coffee, and an effortless candid pose.</p>
           <p class="d mono">Original character — Morning blinds</p>
         </div>
         <div class="fact" data-stop="11" data-card-idx="9">
-          <p class="kicker mono">10 · CONSISTENCY</p>
-          <h3>One face in candid daylight</h3>
-          <p class="s">Custom LoRA keeps identity steady in casual shots.</p>
+          <p class="kicker mono">10 · MIRROR</p>
+          <h3>A casual phone mirror shot?</h3>
+          <p class="s">Zero glossy staging — just raw daylight and the exact same face.</p>
           <p class="d mono">Original character — Mirror daylight</p>
         </div>
         <div class="fact" data-stop="12" data-card-idx="10">
           <p class="kicker mono">11 · LOOKBOOK</p>
-          <h3>New outfit, same character</h3>
-          <p class="s">Consistent model across wardrobe, fabric, and steel reflections.</p>
+          <h3>Swap the wardrobe and location</h3>
+          <p class="s">Camel coat, brushed elevator steel — ready for a fashion lookbook.</p>
           <p class="d mono">Original character — Camel coat</p>
         </div>
         <div class="fact" data-stop="13" data-card-idx="11">
           <p class="kicker mono">12 · FINISH</p>
-          <h3>Finishing makes the frame</h3>
-          <p class="s">Left: raw output. Right: optical grade, light, and grain.</p>
+          <h3>Generation is only half the work</h3>
+          <p class="s">Left: raw output. Right: relighting, color grade, and film grain.</p>
           <p class="d mono">Raw vs. final grade</p>
         </div>
         <div class="fact" data-stop="14" data-card-idx="12">
-          <p class="kicker mono">13 · ATMOSPHERE</p>
-          <h3>Overcast film portrait</h3>
-          <p class="s">Soft fog, natural skin tone, and quiet depth on a wet cobblestone road.</p>
+          <p class="kicker mono">13 · CINEMA</p>
+          <h3>And a quiet touch of drama</h3>
+          <p class="s">Fog, wet cobblestones, and a glance pulled straight from an indie film.</p>
           <p class="d mono">Misty estate — Overcast portrait</p>
         </div>
         <div class="fact" data-stop="16" data-card-idx="13">
-          <p class="kicker mono">14 · LORE</p>
-          <h3>A myth in one frame</h3>
-          <p class="s">Scale and silence that hint at a larger world.</p>
+          <p class="kicker mono">14 · MYTH</p>
+          <h3>Start with a single spark</h3>
+          <p class="s">Scale, scarred steel, and silence that hint at a much larger lore.</p>
           <p class="d mono">The flower — Concept art</p>
         </div>
         <div class="fact" data-stop="17" data-card-idx="14">
           <p class="kicker mono">15 · SEQUENCE</p>
-          <h3>Same knight, new storm</h3>
-          <p class="s">Armor, cloak, and silhouette stay locked across scenes.</p>
+          <h3>What happens next in the storm?</h3>
+          <p class="s">Same giant, new rain-soaked chapter — the story stays unbroken.</p>
           <p class="d mono">The knight in the rain</p>
         </div>
         <div class="fact" data-stop="18" data-card-idx="15">
           <p class="kicker mono">16 · STYLE</p>
-          <h3>Beyond photorealism</h3>
-          <p class="s">Painterly rain and glowing tracks — style fits the story.</p>
+          <h3>What if we leave photorealism behind?</h3>
+          <p class="s">Painterly rain and glowing tracks — the art style serves the mood.</p>
           <p class="d mono">Tram in the rain — Painterly</p>
         </div>
         <div class="fact" data-stop="20" data-card-idx="16">
-          <p class="kicker mono">17 · CONCEPT</p>
-          <h3>Surreal, yet tactile</h3>
-          <p class="s">Floating glass and crimson silk for bold key visuals.</p>
+          <p class="kicker mono">17 · SURREAL</p>
+          <h3>Make the impossible feel tactile</h3>
+          <p class="s">A floating glass sphere holding a city, draped in heavy crimson silk.</p>
           <p class="d mono">Glass sphere & red silk</p>
         </div>
         <div class="fact" data-stop="21" data-card-idx="17">
-          <p class="kicker mono">18 · ATMOSPHERE</p>
-          <h3>Blue hour on a rooftop</h3>
-          <p class="s">Haze, bokeh, and twilight mood set before rendering.</p>
+          <p class="kicker mono">18 · DUSK</p>
+          <h3>Step onto a rooftop at twilight</h3>
+          <p class="s">A river of city lights below, soft haze, and a moment of quiet.</p>
           <p class="d mono">Rooftop at dusk</p>
         </div>
         <div class="fact" data-stop="22" data-card-idx="18">
           <p class="kicker mono">19 · ESCAPE</p>
-          <h3>Misty fjord at dawn</h3>
-          <p class="s">Low clouds, still water reflections, and warm light on a timber cabin.</p>
+          <h3>Or disappear where no one can find you</h3>
+          <p class="s">Mirror-still fjord, low mist, and a lone timber cabin at dawn.</p>
           <p class="d mono">Misty fjord cabin</p>
         </div>
         <div class="fact" data-stop="23" data-card-idx="19">
-          <p class="kicker mono">20 · DETAILS</p>
-          <h3>Detail that holds at full size</h3>
-          <p class="s">Snowflakes on fur, lichen on stone, natural telephoto depth.</p>
+          <p class="kicker mono">20 · DETAIL</p>
+          <h3>Now zoom in and check the craft</h3>
+          <p class="s">Snowflakes on fur and frost on stone — built to hold up at full scale.</p>
           <p class="d mono">Lynx in snow — Wildlife</p>
         </div>
         </div>
@@ -1246,7 +1250,7 @@
     (function () {
       var TIMELINE = [{"type": "beat", "cat": "product", "cardIdx": -1}, {"type": "card", "cat": "product", "cardIdx": 0}, {"type": "card", "cat": "product", "cardIdx": 1}, {"type": "card", "cat": "product", "cardIdx": 2}, {"type": "card", "cat": "product", "cardIdx": 3}, {"type": "card", "cat": "product", "cardIdx": 4}, {"type": "card", "cat": "product", "cardIdx": 5}, {"type": "card", "cat": "product", "cardIdx": 6}, {"type": "beat", "cat": "people", "cardIdx": -1}, {"type": "card", "cat": "people", "cardIdx": 7}, {"type": "card", "cat": "people", "cardIdx": 8}, {"type": "card", "cat": "people", "cardIdx": 9}, {"type": "card", "cat": "people", "cardIdx": 10}, {"type": "card", "cat": "people", "cardIdx": 11}, {"type": "card", "cat": "people", "cardIdx": 12}, {"type": "beat", "cat": "illustration", "cardIdx": -1}, {"type": "card", "cat": "illustration", "cardIdx": 13}, {"type": "card", "cat": "illustration", "cardIdx": 14}, {"type": "card", "cat": "illustration", "cardIdx": 15}, {"type": "beat", "cat": "worlds", "cardIdx": -1}, {"type": "card", "cat": "worlds", "cardIdx": 16}, {"type": "card", "cat": "worlds", "cardIdx": 17}, {"type": "card", "cat": "worlds", "cardIdx": 18}, {"type": "card", "cat": "wildlife", "cardIdx": 19}];
       var ALL_FRAMES = [{"slug": "flatlay", "cat": "product", "label": "PURE AESTHETICS — Flat lay & label sketch", "label_ua": "PURE AESTHETICS — Флетлей та ескіз етикетки", "thumb": "https://raw.githubusercontent.com/overl00ker/portfolio/main/t-flatlay.webp", "full": "https://raw.githubusercontent.com/overl00ker/portfolio/main/flatlay.webp"}, {"slug": "perfume-dark", "cat": "product", "label": "PURE AESTHETICS — Underwater key visual, dark", "label_ua": "PURE AESTHETICS — Підводний кей-віжуал, темний", "thumb": "t-perfume-dark.webp", "full": "perfume-dark.webp"}, {"slug": "perfume-light", "cat": "product", "label": "PURE AESTHETICS — Underwater key visual, light", "label_ua": "PURE AESTHETICS — Підводний кей-віжуал, світлий", "thumb": "https://raw.githubusercontent.com/overl00ker/portfolio/main/t-perfume-light.webp", "full": "https://raw.githubusercontent.com/overl00ker/portfolio/main/perfume-light.webp"}, {"slug": "surface", "cat": "product", "label": "PURE AESTHETICS — At the surface", "label_ua": "PURE AESTHETICS — На поверхні води", "thumb": "https://raw.githubusercontent.com/overl00ker/portfolio/main/t-surface.webp", "full": "https://raw.githubusercontent.com/overl00ker/portfolio/main/surface.webp"}, {"slug": "perfume-face", "cat": "product", "label": "PURE AESTHETICS — Campaign portrait", "label_ua": "PURE AESTHETICS — Кампанія з моделлю", "thumb": "t-perfume-face.webp", "full": "perfume-face.webp"}, {"slug": "flora", "cat": "product", "label": "Flora Mist — Floating bottle concept", "label_ua": "Flora Mist — Концепт флакона в повітрі", "thumb": "https://raw.githubusercontent.com/overl00ker/portfolio/main/t-flora.webp", "full": "https://raw.githubusercontent.com/overl00ker/portfolio/main/flora.webp"}, {"slug": "can-splash", "cat": "product", "label": "Solaris — High-speed studio splash", "label_ua": "Solaris — Студійний сплеск", "thumb": "t-can-splash.webp", "full": "can-splash.webp"}, {"slug": "can-stone", "cat": "product", "label": "Solaris — Sun and travertine stone", "label_ua": "Solaris — Сонце та травертин", "thumb": "t-can-stone.webp", "full": "can-stone.webp"}, {"slug": "can-night", "cat": "product", "label": "Solaris — Night street & rain", "label_ua": "Solaris — Нічна вулиця і дощ", "thumb": "t-can-night.webp", "full": "can-night.webp"}, {"slug": "can-underwater", "cat": "product", "label": "Solaris — Underwater citrus", "label_ua": "Solaris — Підводний кадр із цитрусом", "thumb": "t-can-underwater.webp", "full": "can-underwater.webp"}, {"slug": "can-berries", "cat": "product", "label": "Solaris — Dark berry splash", "label_ua": "Solaris — Темний ягідний сплеск", "thumb": "t-can-berries.webp", "full": "can-berries.webp"}, {"slug": "can-hand", "cat": "product", "label": "Solaris — Lifestyle in hand", "label_ua": "Solaris — Лайфстайл у руці", "thumb": "t-can-hand.webp", "full": "can-hand.webp"}, {"slug": "char-golden", "cat": "people", "label": "Original character — Golden-hour close-up", "label_ua": "Оригінальний персонаж — Крупний план на заході", "thumb": "t-char-golden.webp", "full": "char-golden.webp"}, {"slug": "char-coffee", "cat": "people", "label": "Original character — Morning blinds & coffee", "label_ua": "Оригінальний персонаж — Ранок, жалюзі та кава", "thumb": "t-char-coffee.webp", "full": "char-coffee.webp"}, {"slug": "char-morning", "cat": "people", "label": "Original character — Morning mirror light", "label_ua": "Оригінальний персонаж — Ранкове світло в дзеркалі", "thumb": "t-char-morning.webp", "full": "char-morning.webp"}, {"slug": "char-coat", "cat": "people", "label": "Original character — Brushed steel elevator, camel coat", "label_ua": "Оригінальний персонаж — Ліфт, пальто camel", "thumb": "t-char-coat.webp", "full": "char-coat.webp"}, {"slug": "char-pillow", "cat": "people", "label": "Original character — Soft morning daylight", "label_ua": "Оригінальний персонаж — М'яке ранкове світло", "thumb": "t-char-pillow.webp", "full": "char-pillow.webp"}, {"slug": "char-mirror-black", "cat": "people", "label": "Original character — Window light, black dress", "label_ua": "Оригінальний персонаж — Світло від вікна, чорна сукня", "thumb": "t-char-mirror-black.webp", "full": "char-mirror-black.webp"}, {"slug": "pair", "cat": "people", "label": "Raw generation vs. final grade", "label_ua": "Сира генерація проти фінальної обробки", "thumb": "https://raw.githubusercontent.com/overl00ker/portfolio/main/t-pair.webp", "full": "https://raw.githubusercontent.com/overl00ker/portfolio/main/pair.webp"}, {"slug": "char-manor", "cat": "people", "label": "Misty estate — Overcast film portrait", "label_ua": "Маєток у тумані — Атмосферний портрет", "thumb": "t-char-manor.webp", "full": "char-manor.webp"}, {"slug": "overlook", "cat": "people", "label": "City overlook portrait", "label_ua": "Портрет на оглядовому майданчику", "thumb": "t-overlook.webp", "full": "overlook.webp"}, {"slug": "overlook-back", "cat": "people", "label": "City overlook — River horizon", "label_ua": "Оглядовий майданчик — Горизонт річки", "thumb": "t-overlook-back.webp", "full": "overlook-back.webp"}, {"slug": "winter-portrait", "cat": "people", "label": "Golden hour — Winter street portrait", "label_ua": "Золота година — Зимовий вуличний портрет", "thumb": "t-winter-portrait.webp", "full": "winter-portrait.webp"}, {"slug": "sea-portrait", "cat": "people", "label": "Seaside twilight — Warm backlight", "label_ua": "Узбережжя в сутінках — Тепле контрове світло", "thumb": "t-sea-portrait.webp", "full": "sea-portrait.webp"}, {"slug": "knight", "cat": "illustration", "label": "The flower — Concept illustration", "label_ua": "Квітка — Концепт-ілюстрація", "thumb": "t-knight.webp", "full": "knight.webp"}, {"slug": "knight-rain", "cat": "illustration", "label": "The knight in the rain", "label_ua": "Лицар під дощем", "thumb": "t-knight-rain.webp", "full": "knight-rain.webp"}, {"slug": "knight-field", "cat": "illustration", "label": "The kneeling knight — Moonlit field", "label_ua": "Лицар на колінах — Місячне поле", "thumb": "t-knight-field.webp", "full": "knight-field.webp"}, {"slug": "tram", "cat": "illustration", "label": "Tram in the rain — Painterly style", "label_ua": "Трамвай під дощем — Живописний стиль", "thumb": "t-tram.webp", "full": "tram.webp"}, {"slug": "stalkers-outpost", "cat": "illustration", "label": "Winter outpost — Sci-fi concept", "label_ua": "Зимовий аванпост — Sci-fi концепт", "thumb": "t-stalkers-outpost.webp", "full": "stalkers-outpost.webp"}, {"slug": "sunset-couple", "cat": "illustration", "label": "Under the sunset tree — Stylized illustration", "label_ua": "Під деревом на заході — Стилізована ілюстрація", "thumb": "t-sunset-couple.webp", "full": "sunset-couple.webp"}, {"slug": "winter-oldtown", "cat": "illustration", "label": "Winter old town — Panoramic painting", "label_ua": "Зимове старе місто — Панорамний живопис", "thumb": "t-winter-oldtown.webp", "full": "winter-oldtown.webp"}, {"slug": "sphere", "cat": "worlds", "label": "Glass sphere and red silk", "label_ua": "Скляна сфера та червоний шовк", "thumb": "t-sphere.webp", "full": "sphere.webp"}, {"slug": "paris", "cat": "worlds", "label": "Rooftop at dusk", "label_ua": "Дах у сутінках", "thumb": "t-paris.webp", "full": "paris.webp"}, {"slug": "fjord", "cat": "worlds", "label": "Misty fjord cabin", "label_ua": "Хатина біля туманного фіорду", "thumb": "t-fjord.webp", "full": "fjord.webp"}, {"slug": "gorge", "cat": "worlds", "label": "Stone bridge & cliff tower", "label_ua": "Кам'яний міст і вежа на скелі", "thumb": "t-gorge.webp", "full": "gorge.webp"}, {"slug": "stream", "cat": "worlds", "label": "Steaming winter river", "label_ua": "Зимова річка в променях сонця", "thumb": "t-stream.webp", "full": "stream.webp"}, {"slug": "glasses-puddle", "cat": "worlds", "label": "Sunset reflection — Wet asphalt", "label_ua": "Відблиск заходу — Мокрий асфальт", "thumb": "t-glasses-puddle.webp", "full": "glasses-puddle.webp"}, {"slug": "lynx", "cat": "wildlife", "label": "Lynx in snow", "label_ua": "Рись у снігу", "thumb": "t-lynx.webp", "full": "lynx.webp"}, {"slug": "frost", "cat": "wildlife", "label": "Frosted rosehips — Macro", "label_ua": "Шипшина в інеї — Макро", "thumb": "t-frost.webp", "full": "frost.webp"}, {"slug": "owl", "cat": "wildlife", "label": "Snowy owl", "label_ua": "Біла сова", "thumb": "t-owl.webp", "full": "owl.webp"}];
-      var I18N = {"ui": {"en": {"nav_work": "Journey (20)", "nav_services": "Services", "nav_all": "Archive (40)", "nav_process": "Process", "nav_contact": "Contact", "hero_eyebrow": "AI Visual Artist · Worldbuilder · Optics", "hero_h1": "Dreams and ideas, brought to life with AI.", "hero_lead": "Product campaigns, original characters, fantasy worlds, and atmospheric scenes — crafted with real optical precision.", "stat_1": "<strong>3 years</strong> in ComfyUI", "stat_2": "<strong>Custom</strong> LoRA training", "stat_3": "<strong>Kyiv</strong> · Open to remote", "hero_cta_enter": "Enter the Journey", "hero_cta_contact": "Start a project", "btn_prev": "Prev", "btn_next": "Next", "btn_auto_play": "▶ Auto", "btn_auto_pause": "❚❚ Pause", "hero_auto_play": "▶ Auto-scroll", "hero_auto_pause": "❚❚ Pause", "story_label": "STORY", "chap_product": "Product", "chap_people": "Stories", "chap_illustration": "Lore", "chap_worlds": "Worlds", "svc_kicker": "What we can build", "svc_h2": "Services", "svc_note": "Whether you need a commercial campaign, an original cast for your narrative, or a world that doesn't exist yet — built to hold up at full resolution.", "svc_1_h3": "Product & campaign visuals", "svc_1_p": "Consistent packaging, curved typography, water and light physics, and lifestyle scenes without studio or location limits.", "svc_2_h3": "Characters & visual stories", "svc_2_p": "Original characters trained via custom LoRAs — one believable face across dramas, brand lookbooks, and candid scenes.", "svc_3_h3": "Posters, banners & covers", "svc_3_p": "Scroll-stopping key visuals framed natively for print, vertical mobile placements, and music or release covers.", "svc_4_h3": "Fantasy worlds & concept art", "svc_4_p": "Consistent heroes, deep lore, and atmospheric landscapes in painterly, cinematic, or stylized directions.", "all_kicker": "Complete index", "all_h2": "All 40 frames", "all_note": "Every frame in the archive — filter by category or click any image to inspect at full resolution.", "f_all": "All (40)", "f_product": "Product (12)", "f_people": "People (12)", "f_illustration": "Illustration (7)", "f_worlds": "Worlds (6)", "f_wildlife": "Wildlife (3)", "proc_kicker": "How a world takes shape", "proc_h2": "Process", "proc_note": "Clear vision up front, custom ComfyUI pipelines under the hood, and careful optical finishing at the end.", "st_1_h3": "Idea", "st_1_p": "Lock the story, references, lens mood, and exact deliverables.", "st_2_h3": "Workflow", "st_2_p": "Build or tune a dedicated ComfyUI pipeline and train LoRAs if needed.", "st_3_h3": "Variations", "st_3_p": "Explore angles, lighting setups, and compositions rapidly.", "st_4_h3": "Selection", "st_4_p": "Pick the strongest frames and verify lettering, hands, and proportions.", "st_5_h3": "Finish", "st_5_p": "Upscale, relight, color grade, and retouch in Photoshop for final delivery.", "bio": "I'm Andrew Tymofeev, an AI visual artist based in Kyiv with a background in optics and three years building custom ComfyUI pipelines. Studying real light and lens behavior lets me turn imagination into crisp, believable imagery — whether it's a product launch, a character-driven story, or a fantasy world.", "cnt_kicker": "Ready when you are", "cnt_h2": "Let's bring your idea to life", "copy_btn": "Copy email", "copied_btn": "Copied!", "footer_right": "Concept brands shown: PURE AESTHETICS, Flora Mist, Solaris", "lb_close": "Close"}, "ua": {"nav_work": "Подорож (20)", "nav_services": "Послуги", "nav_all": "Архів (40)", "nav_process": "Процес", "nav_contact": "Контакти", "hero_eyebrow": "AI-художник · Творець світів · Оптика", "hero_h1": "Мрії та ідеї, втілені в життя з ШІ.", "hero_lead": "Продуктові кампанії, оригінальні персонажі, фентезі-світи й атмосферні сцени — з точністю реальної оптики.", "stat_1": "<strong>3 роки</strong> в ComfyUI", "stat_2": "<strong>Кастомне</strong> навчання LoRA", "stat_3": "<strong>Київ</strong> · Відкритий до remote", "hero_cta_enter": "Почати подорож", "hero_cta_contact": "Почати проєкт", "btn_prev": "Назад", "btn_next": "Далі", "btn_auto_play": "▶ Авто", "btn_auto_pause": "❚❚ Пауза", "hero_auto_play": "▶ Автоскрол", "hero_auto_pause": "❚❚ Пауза", "story_label": "РОЗДІЛ", "chap_product": "Продукт", "chap_people": "Історії", "chap_illustration": "Лор", "chap_worlds": "Світи", "svc_kicker": "Що ми можемо створити", "svc_h2": "Послуги", "svc_note": "Комерційна кампанія, оригінальні персонажі для твоєї історії чи світ, якого ще не існує — зібрано так, щоб тримати якість у повному розмірі.", "svc_1_h3": "Продуктові та рекламні віжуали", "svc_1_p": "Точне пакування, типографіка на вигинах, фізика води та світла й лайфстайл-сцени без обмежень студії чи локацій.", "svc_2_h3": "Персонажі та візуальні історії", "svc_2_p": "Оригінальні герої на базі кастомних LoRA — одне живе впізнаване обличчя для драм, лукбуків і буденних сцен.", "svc_3_h3": "Постери, банери та обкладинки", "svc_3_p": "Кей-віжуали, що зупиняють скрол, скомпоновані одразу під друк, вертикальний мобайл і музичні релізи.", "svc_4_h3": "Фентезі-світи та концепт-арт", "svc_4_p": "Послідовні герої, глибокий лор і атмосферні пейзажі в живописному, кінематографічному чи стилізованому ключі.", "all_kicker": "Повний індекс", "all_h2": "Усі 40 кадрів", "all_note": "Кожна робота з архіву — фільтруй за категоріями або натискай на будь-який кадр для перегляду в повному розмірі.", "f_all": "Усі (40)", "f_product": "Продукт (12)", "f_people": "Люди (12)", "f_illustration": "Ілюстрація (7)", "f_worlds": "Світи (6)", "f_wildlife": "Природа (3)", "proc_kicker": "Як народжується світ", "proc_h2": "Процес", "proc_note": "Чітке бачення на старті, кастомні пайплайни ComfyUI всередині та ретельна оптична доробка у фіналі.", "st_1_h3": "Ідея", "st_1_p": "Фіксуємо історію, референси, характер оптики та точні результати.", "st_2_h3": "Пайплайн", "st_2_p": "Збираю або налаштовую окремий пайплайн у ComfyUI й за потреби навчаю LoRA.", "st_3_h3": "Варіації", "st_3_p": "Швидко досліджуємо ракурси, схеми світла та композиції.", "st_4_h3": "Відбір", "st_4_p": "Обираємо найсильніші кадри, перевіряємо написи, руки та пропорції.", "st_5_h3": "Фініш", "st_5_p": "Апскейл, досвітлення, кольорокорекція та ретуш у Photoshop до ідеалу.", "bio": "Я Андрій Тимофєєв — AI-художник із Києва з бекграундом в оптиці та трьома роками роботи з кастомними пайплайнами ComfyUI. Розуміння реального світла й поведінки лінз допомагає перетворювати уяву на живі, переконливі кадри — від запуску продукту до історії з персонажем чи фентезі-світу.", "cnt_kicker": "Готовий, коли готовий ти", "cnt_h2": "Втілимо твою ідею в життя", "copy_btn": "Скопіювати email", "copied_btn": "Скопійовано!", "footer_right": "Концепт-бренди в портфоліо: PURE AESTHETICS, Flora Mist, Solaris", "lb_close": "Закрити"}}, "cards": [{"en": {"kicker": "01 · PRODUCT", "h3": "From sketch to campaign", "s": "One product and label, identical in every frame.", "d": "PURE AESTHETICS — Flat lay & sketch"}, "ua": {"kicker": "01 · ПРОДУКТ", "h3": "Від ескізу до кампанії", "s": "Один товар і етикетка — незмінні в кожному кадрі.", "d": "PURE AESTHETICS — Флетлей та ескіз"}, "tags": null}, {"en": {"kicker": "02 · NEW ANGLE", "h3": "Same product, underwater", "s": "Refracted light at 2880 × 3840 — no studio tank needed.", "d": "PURE AESTHETICS — Underwater, dark"}, "ua": {"kicker": "02 · ІНШИЙ РАКУРС", "h3": "Той самий товар під водою", "s": "Заломлення світла у 2880 × 3840 — без аквастудії.", "d": "PURE AESTHETICS — Під водою, темний"}, "tags": null}, {"en": {"kicker": "03 · CAMPAIGN", "h3": "Product and model in one frame", "s": "Sharp label, natural skin, clean hand grip.", "d": "PURE AESTHETICS — Campaign portrait"}, "ua": {"kicker": "03 · КАМПАНІЯ", "h3": "Товар і модель в одному кадрі", "s": "Чітка етикетка, жива шкіра, природний дотик.", "d": "PURE AESTHETICS — Портрет кампанії"}, "tags": null}, {"en": {"kicker": "04 · MOOD", "h3": "Another brand, another mood", "s": "Botanical haze and floating glass built around the product.", "d": "Flora Mist — Floating bottle"}, "ua": {"kicker": "04 · НАСТРІЙ", "h3": "Інший бренд — інший настрій", "s": "Ботанічний серпанок і невагоме скло під форму товару.", "d": "Flora Mist — Флакон у повітрі"}, "tags": null}, {"en": {"kicker": "05 · PRECISION", "h3": "Sharp text on curved packaging", "s": "Lettering holds cleanly even in high-speed splash motion.", "d": "Solaris — Studio splash"}, "ua": {"kicker": "05 · ТОЧНІСТЬ", "h3": "Чіткий текст на вигині товару", "s": "Напис тримає форму навіть у швидкому сплеску.", "d": "Solaris — Студійний сплеск"}, "tags": null}, {"en": {"kicker": "06 · NIGHT SCENE", "h3": "Same product, night rain", "s": "Wet asphalt and street reflections without losing print clarity.", "d": "Solaris — Night street & rain"}, "ua": {"kicker": "06 · НІЧНА СЦЕНА", "h3": "Той самий товар, нічний дощ", "s": "Мокрий асфальт і ліхтарі без втрати чіткості принту.", "d": "Solaris — Нічна вулиця і дощ"}, "tags": null}, {"en": {"kicker": "07 · LIFESTYLE", "h3": "From packshot to lifestyle", "s": "Clean studio product moved straight into a natural hand.", "d": "Solaris — In hand"}, "ua": {"kicker": "07 · ЛАЙФСТАЙЛ", "h3": "Від пекшоту до лайфстайлу", "s": "Студійний товар у живому повсякденному кадрі.", "d": "Solaris — У руці"}, "tags": null}, {"en": {"kicker": "08 · OPTICS", "h3": "Photographed, not generated", "s": "Golden-hour light, real skin texture, rim-lit stray hair.", "d": "Original character — Golden hour"}, "ua": {"kicker": "08 · ОПТИКА", "h3": "Як реальне фото, не генерація", "s": "Світло золотої години, жива шкіра, контрове світло на волоссі.", "d": "Оригінальний персонаж — Золота година"}, "tags": null}, {"en": {"kicker": "09 · LIGHTING", "h3": "Complex morning light", "s": "Hard window blinds, soft shadows, natural hands.", "d": "Original character — Morning blinds"}, "ua": {"kicker": "09 · СВІТЛО", "h3": "Складне ранкове світло", "s": "Смуги від жалюзі, м'які тіні, природні руки.", "d": "Оригінальний персонаж — Ранкові жалюзі"}, "tags": null}, {"en": {"kicker": "10 · CONSISTENCY", "h3": "One face in candid daylight", "s": "Custom LoRA keeps identity steady in casual shots.", "d": "Original character — Mirror daylight"}, "ua": {"kicker": "10 · ПОСЛІДОВНІСТЬ", "h3": "Одне обличчя в денному світлі", "s": "Кастомна LoRA тримає ідентичність у буденних кадрах.", "d": "Оригінальний персонаж — Денне світло"}, "tags": null}, {"en": {"kicker": "11 · LOOKBOOK", "h3": "New outfit, same character", "s": "Consistent model across wardrobe, fabric, and steel reflections.", "d": "Original character — Camel coat"}, "ua": {"kicker": "11 · ЛУКБУК", "h3": "Новий образ, та сама героїня", "s": "Єдиний персонаж крізь одяг, тканини й відблиски сталі.", "d": "Оригінальний персонаж — Пальто camel"}, "tags": null}, {"en": {"kicker": "12 · FINISH", "h3": "Finishing makes the frame", "s": "Left: raw output. Right: optical grade, light, and grain.", "d": "Raw vs. final grade"}, "ua": {"kicker": "12 · ФІНІШ", "h3": "Фініш вирішує кадр", "s": "Зліва — сирий рендер. Справа — світло, колір і зерно.", "d": "Сире проти фіналу"}, "tags": {"en": ["Raw", "Final"], "ua": ["Сире", "Фінал"]}}, {"en": {"kicker": "13 · ATMOSPHERE", "h3": "Overcast film portrait", "s": "Soft fog, natural skin tone, and quiet depth on a wet cobblestone road.", "d": "Misty estate — Overcast portrait"}, "ua": {"kicker": "13 · АТМОСФЕРА", "h3": "Портрет у похмурому тумані", "s": "М'який серпанок, живий тон шкіри та спокійна глибина на мокрій бруківці.", "d": "Маєток у тумані — Атмосферний портрет"}, "tags": null}, {"en": {"kicker": "14 · LORE", "h3": "A myth in one frame", "s": "Scale and silence that hint at a larger world.", "d": "The flower — Concept art"}, "ua": {"kicker": "14 · ЛОР", "h3": "Міф в одному кадрі", "s": "Масштаб і тиша, за якими відчувається цілий світ.", "d": "Квітка — Концепт-арт"}, "tags": null}, {"en": {"kicker": "15 · SEQUENCE", "h3": "Same knight, new storm", "s": "Armor, cloak, and silhouette stay locked across scenes.", "d": "The knight in the rain"}, "ua": {"kicker": "15 · СЕРІЯ", "h3": "Той самий лицар, нова злива", "s": "Обладунки, плащ і силует незмінні між сценами.", "d": "Лицар під дощем"}, "tags": null}, {"en": {"kicker": "16 · STYLE", "h3": "Beyond photorealism", "s": "Painterly rain and glowing tracks — style fits the story.", "d": "Tram in the rain — Painterly"}, "ua": {"kicker": "16 · СТИЛЬ", "h3": "Не лише фотореалізм", "s": "Живописний дощ і сяйво рейок — стиль під настрій історії.", "d": "Трамвай під дощем — Живопис"}, "tags": null}, {"en": {"kicker": "17 · CONCEPT", "h3": "Surreal, yet tactile", "s": "Floating glass and crimson silk for bold key visuals.", "d": "Glass sphere & red silk"}, "ua": {"kicker": "17 · КОНЦЕПТ", "h3": "Сюрреалізм на дотик", "s": "Скляна сфера й червоний шовк для сміливих обкладинок.", "d": "Скляна сфера та червоний шовк"}, "tags": null}, {"en": {"kicker": "18 · ATMOSPHERE", "h3": "Blue hour on a rooftop", "s": "Haze, bokeh, and twilight mood set before rendering.", "d": "Rooftop at dusk"}, "ua": {"kicker": "18 · АТМОСФЕРА", "h3": "Синя година на даху", "s": "Серпанок, боке й настрій сутінків, закладені до рендера.", "d": "Дах у сутінках"}, "tags": null}, {"en": {"kicker": "19 · ESCAPE", "h3": "Misty fjord at dawn", "s": "Low clouds, still water reflections, and warm light on a timber cabin.", "d": "Misty fjord cabin"}, "ua": {"kicker": "19 · ПРОСТІР", "h3": "Туманний фіорд на світанку", "s": "Низькі хмари, дзеркало води й тепле світло на дерев'яній хатині.", "d": "Хатина біля туманного фіорду"}, "tags": null}, {"en": {"kicker": "20 · DETAILS", "h3": "Detail that holds at full size", "s": "Snowflakes on fur, lichen on stone, natural telephoto depth.", "d": "Lynx in snow — Wildlife"}, "ua": {"kicker": "20 · ДЕТАЛІ", "h3": "Деталі, що тримають повний розмір", "s": "Сніг на хутрі, мох на камені, природна глибина оптики.", "d": "Рись у снігу"}, "tags": null}], "beats": [{"en": {"eyebrow": "CHAPTER I · PRODUCTS", "title": "What about a product with no studio limits?", "sub": "One label, any scene, clean light."}, "ua": {"eyebrow": "РОЗДІЛ I · ПРОДУКТ", "title": "А як щодо продукту без обмежень студії?", "sub": "Одна етикетка, будь-яка сцена, чисте світло."}}, {"en": {"eyebrow": "CHAPTER II · CHARACTERS", "title": "What about a character who never existed?", "sub": "One face across drama, fashion, and everyday light."}, "ua": {"eyebrow": "РОЗДІЛ II · ПЕРСОНАЖІ", "title": "А як щодо персонажа, якого не існувало?", "sub": "Одне обличчя для драми, моди й буденного світла."}}, {"en": {"eyebrow": "CHAPTER III · FANTASY", "title": "What about a fantasy world with its own lore?", "sub": "Consistent heroes, atmosphere, and visual storytelling."}, "ua": {"eyebrow": "РОЗДІЛ III · ФЕНТЕЗІ", "title": "А як щодо світу фентезі з власним лором?", "sub": "Послідовні герої, атмосфера та візуальні історії."}}, {"en": {"eyebrow": "CHAPTER IV · WORLDS", "title": "What about a place that only exists in imagination?", "sub": "Surreal concepts, quiet rooftops, frozen mountain dawns."}, "ua": {"eyebrow": "РОЗДІЛ IV · СВІТИ", "title": "А як щодо місць, що існують лише в уяві?", "sub": "Сюрреалізм, тихі дахи й морозні гірські світанки."}}]};
+      var I18N = {"ui": {"en": {"nav_work": "Journey (20)", "nav_services": "Services", "nav_all": "Archive (40)", "nav_process": "Process", "nav_contact": "Contact", "hero_eyebrow": "AI Visual Artist · AI Content Creator · Worldbuilder", "hero_h1": "Dreams and ideas, brought to life with AI.", "hero_lead": "All limitations are just in your imagination.", "stat_1": "<strong>3 years</strong> in ComfyUI", "stat_2": "<strong>Custom</strong> LoRA training", "stat_3": "<strong>Kyiv</strong> · Open to remote", "hero_cta_enter": "Enter the Journey", "hero_cta_contact": "Start a project", "btn_prev": "Prev", "btn_next": "Next", "btn_auto_play": "▶ Auto", "btn_auto_pause": "❚❚ Pause", "hero_auto_play": "▶ Auto-scroll", "hero_auto_pause": "❚❚ Pause", "story_label": "STORY", "chap_product": "Product", "chap_people": "Stories", "chap_illustration": "Lore", "chap_worlds": "Worlds", "svc_kicker": "What we can build", "svc_h2": "Services", "svc_note": "Whether you need a commercial campaign, an original cast for your narrative, or a world that doesn't exist yet — built to hold up at full resolution.", "svc_1_h3": "Product & campaign visuals", "svc_1_p": "Consistent packaging, curved typography, water and light physics, and lifestyle scenes without studio or location limits.", "svc_2_h3": "Characters & visual stories", "svc_2_p": "Original characters trained via custom LoRAs — one believable face across dramas, brand lookbooks, and candid scenes.", "svc_3_h3": "Posters, banners & covers", "svc_3_p": "Scroll-stopping key visuals framed natively for print, vertical mobile placements, and music or release covers.", "svc_4_h3": "Fantasy worlds & concept art", "svc_4_p": "Consistent heroes, deep lore, and atmospheric landscapes in painterly, cinematic, or stylized directions.", "all_kicker": "Complete index", "all_h2": "All 40 frames", "all_note": "Every frame in the archive — filter by category or click any image to inspect at full resolution.", "f_all": "All (40)", "f_product": "Product (12)", "f_people": "People (12)", "f_illustration": "Illustration (7)", "f_worlds": "Worlds (6)", "f_wildlife": "Wildlife (3)", "proc_kicker": "How a world takes shape", "proc_h2": "Process", "proc_note": "Clear vision up front, custom ComfyUI pipelines under the hood, and careful optical finishing at the end.", "st_1_h3": "Idea", "st_1_p": "Lock the story, references, lens mood, and exact deliverables.", "st_2_h3": "Workflow", "st_2_p": "Build or tune a dedicated ComfyUI pipeline and train LoRAs if needed.", "st_3_h3": "Variations", "st_3_p": "Explore angles, lighting setups, and compositions rapidly.", "st_4_h3": "Selection", "st_4_p": "Pick the strongest frames and verify lettering, hands, and proportions.", "st_5_h3": "Finish", "st_5_p": "Upscale, relight, color grade, and retouch in Photoshop for final delivery.", "bio": "I'm Andrew Tymofeev, an AI visual artist based in Kyiv with a background in optics and three years building custom ComfyUI pipelines. Studying real light and lens behavior lets me turn imagination into crisp, believable imagery — whether it's a product launch, a character-driven story, or a fantasy world.", "cnt_kicker": "Ready when you are", "cnt_h2": "Let's bring your idea to life", "copy_btn": "Copy email", "copied_btn": "Copied!", "footer_right": "Concept brands shown: PURE AESTHETICS, Flora Mist, Solaris", "lb_close": "Close"}, "ua": {"nav_work": "Подорож (20)", "nav_services": "Послуги", "nav_all": "Архів (40)", "nav_process": "Процес", "nav_contact": "Контакти", "hero_eyebrow": "AI-художник · AI-створювач контенту · Мрійник", "hero_h1": "Мрії та ідеї, втілені в життя з ШІ.", "hero_lead": "Усі обмеження лише у вашій фантазії.", "stat_1": "<strong>3 роки</strong> в ComfyUI", "stat_2": "<strong>Кастомне</strong> навчання LoRA", "stat_3": "<strong>Київ</strong> · Відкритий до remote", "hero_cta_enter": "Почати подорож", "hero_cta_contact": "Почати проєкт", "btn_prev": "Назад", "btn_next": "Далі", "btn_auto_play": "▶ Авто", "btn_auto_pause": "❚❚ Пауза", "hero_auto_play": "▶ Автоскрол", "hero_auto_pause": "❚❚ Пауза", "story_label": "РОЗДІЛ", "chap_product": "Продукт", "chap_people": "Історії", "chap_illustration": "Лор", "chap_worlds": "Світи", "svc_kicker": "Що ми можемо створити", "svc_h2": "Послуги", "svc_note": "Комерційна кампанія, оригінальні персонажі для твоєї історії чи світ, якого ще не існує — зібрано так, щоб тримати якість у повному розмірі.", "svc_1_h3": "Продуктові та рекламні віжуали", "svc_1_p": "Точне пакування, типографіка на вигинах, фізика води та світла й лайфстайл-сцени без обмежень студії чи локацій.", "svc_2_h3": "Персонажі та візуальні історії", "svc_2_p": "Оригінальні герої на базі кастомних LoRA — одне живе впізнаване обличчя для драм, лукбуків і буденних сцен.", "svc_3_h3": "Постери, банери та обкладинки", "svc_3_p": "Кей-віжуали, що зупиняють скрол, скомпоновані одразу під друк, вертикальний мобайл і музичні релізи.", "svc_4_h3": "Фентезі-світи та концепт-арт", "svc_4_p": "Послідовні герої, глибокий лор і атмосферні пейзажі в живописному, кінематографічному чи стилізованому ключі.", "all_kicker": "Повний індекс", "all_h2": "Усі 40 кадрів", "all_note": "Кожна робота з архіву — фільтруй за категоріями або натискай на будь-який кадр для перегляду в повному розмірі.", "f_all": "Усі (40)", "f_product": "Продукт (12)", "f_people": "Люди (12)", "f_illustration": "Ілюстрація (7)", "f_worlds": "Світи (6)", "f_wildlife": "Природа (3)", "proc_kicker": "Як народжується світ", "proc_h2": "Процес", "proc_note": "Чітке бачення на старті, кастомні пайплайни ComfyUI всередині та ретельна оптична доробка у фіналі.", "st_1_h3": "Ідея", "st_1_p": "Фіксуємо історію, референси, характер оптики та точні результати.", "st_2_h3": "Пайплайн", "st_2_p": "Збираю або налаштовую окремий пайплайн у ComfyUI й за потреби навчаю LoRA.", "st_3_h3": "Варіації", "st_3_p": "Швидко досліджуємо ракурси, схеми світла та композиції.", "st_4_h3": "Відбір", "st_4_p": "Обираємо найсильніші кадри, перевіряємо написи, руки та пропорції.", "st_5_h3": "Фініш", "st_5_p": "Апскейл, досвітлення, кольорокорекція та ретуш у Photoshop до ідеалу.", "bio": "Я Андрій Тимофєєв — AI-художник із Києва з бекграундом в оптиці та трьома роками роботи з кастомними пайплайнами ComfyUI. Розуміння реального світла й поведінки лінз допомагає перетворювати уяву на живі, переконливі кадри — від запуску продукту до історії з персонажем чи фентезі-світу.", "cnt_kicker": "Готовий, коли готовий ти", "cnt_h2": "Втілимо твою ідею в життя", "copy_btn": "Скопіювати email", "copied_btn": "Скопійовано!", "footer_right": "Концепт-бренди в портфоліо: PURE AESTHETICS, Flora Mist, Solaris", "lb_close": "Закрити"}}, "cards": [{"en": {"kicker": "01 · IDEA", "h3": "Product still on paper?", "s": "Turn a rough sketch into a finished flat lay with zero prototypes.", "d": "PURE AESTHETICS — Flat lay & sketch"}, "ua": {"kicker": "01 · ІДЕЯ", "h3": "Товар — лише на ескізі?", "s": "Перетворюємо начерк на готовий флетлей без жодного прототипу.", "d": "PURE AESTHETICS — Флетлей та ескіз"}, "tags": null}, {"en": {"kicker": "02 · ANGLE", "h3": "Let's try another angle", "s": "Drop the bottle into dark water and petals — no studio tank needed.", "d": "PURE AESTHETICS — Underwater, dark"}, "ua": {"kicker": "02 · РАКУРС", "h3": "Подивимось під іншим кутом", "s": "Занурюємо флакон у темну воду з пелюстками — без аквастудії.", "d": "PURE AESTHETICS — Під водою, темний"}, "tags": null}, {"en": {"kicker": "03 · CAMPAIGN", "h3": "Now add a human touch", "s": "Real skin, natural grip, and crisp lettering in a single frame.", "d": "PURE AESTHETICS — Campaign portrait"}, "ua": {"kicker": "03 · РЕКЛАМА", "h3": "А тепер додамо людину", "s": "Жива шкіра, природний дотик і чиста типографіка в одному кадрі.", "d": "PURE AESTHETICS — Портрет кампанії"}, "tags": null}, {"en": {"kicker": "04 · MOOD", "h3": "New brand, new gravity", "s": "Weightless glass and botanical haze shaped around the scent.", "d": "Flora Mist — Floating bottle"}, "ua": {"kicker": "04 · НАСТРІЙ", "h3": "Інший бренд — інша гравітація", "s": "Невагоме скло й ботанічний серпанок, створені під характер аромату.", "d": "Flora Mist — Флакон у повітрі"}, "tags": null}, {"en": {"kicker": "05 · MOTION", "h3": "What if we add speed?", "s": "Frozen berry splash and flying ice — curved print stays razor sharp.", "d": "Solaris — Studio splash"}, "ua": {"kicker": "05 · ДИНАМІКА", "h3": "А якщо додати швидкості?", "s": "Заморожуємо ягідний сплеск і лід — шрифт на вигині лишається ідеальним.", "d": "Solaris — Студійний сплеск"}, "tags": null}, {"en": {"kicker": "06 · NIGHT", "h3": "Take it to a rainy street", "s": "Neon bokeh, rain droplets, and wet asphalt instead of a sterile backdrop.", "d": "Solaris — Night street & rain"}, "ua": {"kicker": "06 · НІЧ", "h3": "Переносимо сцену на мокру вулицю", "s": "Неон, краплі дощу й відблиски асфальту замість стерильного фону.", "d": "Solaris — Нічна вулиця і дощ"}, "tags": null}, {"en": {"kicker": "07 · LIFESTYLE", "h3": "And finally — right in hand", "s": "A warm everyday moment that feels real at first glance.", "d": "Solaris — In hand"}, "ua": {"kicker": "07 · ЛАЙФСТАЙЛ", "h3": "І нарешті — просто в руки", "s": "Живий кадр із теплого дня, в який віриться з першої секунди.", "d": "Solaris — У руці"}, "tags": null}, {"en": {"kicker": "08 · PORTRAIT", "h3": "Can you tell it's not a real photo?", "s": "Golden-hour warmth, real skin pores, and backlit stray hair.", "d": "Original character — Golden hour"}, "ua": {"kicker": "08 · ПОРТРЕТ", "h3": "Як відрізнити реальне фото від генерації?", "s": "Тепле вечірнє світло, пори шкіри й волосинки в контровому промені.", "d": "Оригінальний персонаж — Золота година"}, "tags": null}, {"en": {"kicker": "09 · MORNING", "h3": "Now put her in a morning kitchen", "s": "Window-blind stripes, warm coffee, and an effortless candid pose.", "d": "Original character — Morning blinds"}, "ua": {"kicker": "09 · РАНОК", "h3": "Переносимо її на ранкову кухню", "s": "Смуги від жалюзі, чашка кави й невимушена поза без студійної штучності.", "d": "Оригінальний персонаж — Ранкові жалюзі"}, "tags": null}, {"en": {"kicker": "10 · MIRROR", "h3": "A casual phone mirror shot?", "s": "Zero glossy staging — just raw daylight and the exact same face.", "d": "Original character — Mirror daylight"}, "ua": {"kicker": "10 · ДЗЕРКАЛО", "h3": "Випадкове селфі на телефон?", "s": "Жодної глянцевої постанови — лише природне світло і впізнаване обличчя.", "d": "Оригінальний персонаж — Денне світло"}, "tags": null}, {"en": {"kicker": "11 · LOOKBOOK", "h3": "Swap the wardrobe and location", "s": "Camel coat, brushed elevator steel — ready for a fashion lookbook.", "d": "Original character — Camel coat"}, "ua": {"kicker": "11 · ЛУКБУК", "h3": "Змінюємо гардероб і локацію", "s": "Пальто camel, холодна сталь ліфта — героїня готова до зйомки бренду.", "d": "Оригінальний персонаж — Пальто camel"}, "tags": null}, {"en": {"kicker": "12 · FINISH", "h3": "Generation is only half the work", "s": "Left: raw output. Right: relighting, color grade, and film grain.", "d": "Raw vs. final grade"}, "ua": {"kicker": "12 · ФІНІШ", "h3": "Але генерація — це лише пів справи", "s": "Зліва сирий рендер, справа — світло, колір і фінальне зерно.", "d": "Сире проти фіналу"}, "tags": {"en": ["Raw", "Final"], "ua": ["Сире", "Фінал"]}}, {"en": {"kicker": "13 · CINEMA", "h3": "And a quiet touch of drama", "s": "Fog, wet cobblestones, and a glance pulled straight from an indie film.", "d": "Misty estate — Overcast portrait"}, "ua": {"kicker": "13 · КІНО", "h3": "І трохи похмурої драми наостанок", "s": "Туман, мокра бруківка й тихий погляд, як кадр з авторського фільму.", "d": "Маєток у тумані — Атмосферний портрет"}, "tags": null}, {"en": {"kicker": "14 · MYTH", "h3": "Start with a single spark", "s": "Scale, scarred steel, and silence that hint at a much larger lore.", "d": "The flower — Concept art"}, "ua": {"kicker": "14 · МІФ", "h3": "Почнемо з однієї іскри", "s": "Масштаб, метал і тиша, за якими одразу відчувається великий лор.", "d": "Квітка — Концепт-арт"}, "tags": null}, {"en": {"kicker": "15 · SEQUENCE", "h3": "What happens next in the storm?", "s": "Same giant, new rain-soaked chapter — the story stays unbroken.", "d": "The knight in the rain"}, "ua": {"kicker": "15 · ПРОДОВЖЕННЯ", "h3": "Що було далі під зливою?", "s": "Той самий велетень у новій сцені — історія тримає цілісність.", "d": "Лицар під дощем"}, "tags": null}, {"en": {"kicker": "16 · STYLE", "h3": "What if we leave photorealism behind?", "s": "Painterly rain and glowing tracks — the art style serves the mood.", "d": "Tram in the rain — Painterly"}, "ua": {"kicker": "16 · СТИЛЬ", "h3": "А якщо піти від фотореалізму?", "s": "Живописні мазки, теплий трамвай і дощове місто — стиль підлаштовується під сюжет.", "d": "Трамвай під дощем — Живопис"}, "tags": null}, {"en": {"kicker": "17 · SURREAL", "h3": "Make the impossible feel tactile", "s": "A floating glass sphere holding a city, draped in heavy crimson silk.", "d": "Glass sphere & red silk"}, "ua": {"kicker": "17 · СЮРРЕАЛІЗМ", "h3": "Зробимо неможливе відчутним на дотик", "s": "Скляна сфера з цілим містом і важкий червоний шовк у повітрі.", "d": "Скляна сфера та червоний шовк"}, "tags": null}, {"en": {"kicker": "18 · DUSK", "h3": "Step onto a rooftop at twilight", "s": "A river of city lights below, soft haze, and a moment of quiet.", "d": "Rooftop at dusk"}, "ua": {"kicker": "18 · ВЕЧІР", "h3": "Спустимось на дах у сутінках", "s": "Мільйон вогнів унизу, теплий серпанок і момент повної тиші.", "d": "Дах у сутінках"}, "tags": null}, {"en": {"kicker": "19 · ESCAPE", "h3": "Or disappear where no one can find you", "s": "Mirror-still fjord, low mist, and a lone timber cabin at dawn.", "d": "Misty fjord cabin"}, "ua": {"kicker": "19 · ТИША", "h3": "Або втечемо туди, де нікого немає", "s": "Дзеркало фіорду, низькі хмари й самотня хатина на світанку.", "d": "Хатина біля туманного фіорду"}, "tags": null}, {"en": {"kicker": "20 · DETAIL", "h3": "Now zoom in and check the craft", "s": "Snowflakes on fur and frost on stone — built to hold up at full scale.", "d": "Lynx in snow — Wildlife"}, "ua": {"kicker": "20 · ДЕТАЛІ", "h3": "І наблизьте, щоб перевірити якість", "s": "Сніжинки на хутрі, мох на камені — кадр витримує повний розмір.", "d": "Рись у снігу"}, "tags": null}], "beats": [{"en": {"eyebrow": "CHAPTER I · PRODUCT", "title": "Campaign visuals without studio limits?", "sub": "One label, any scene, clean light."}, "ua": {"eyebrow": "РОЗДІЛ I · ТОВАР", "title": "Рекламні креативи без обмежень студії?", "sub": "Одна етикетка, будь-яка сцена, чисте світло."}}, {"en": {"eyebrow": "CHAPTER II · CHARACTERS", "title": "What about an imaginary character?", "sub": "One face across drama, fashion, and everyday light."}, "ua": {"eyebrow": "РОЗДІЛ II · ПЕРСОНАЖІ", "title": "А як щодо уявного персонажа?", "sub": "Одне обличчя для драми, моди й буденного світла."}}, {"en": {"eyebrow": "CHAPTER III · FANTASY", "title": "What about a fantasy world with its own lore?", "sub": "Consistent heroes, atmosphere, and visual storytelling."}, "ua": {"eyebrow": "РОЗДІЛ III · ФЕНТЕЗІ", "title": "А як щодо світу фентезі з власним лором?", "sub": "Послідовні герої, атмосфера та візуальні історії."}}, {"en": {"eyebrow": "CHAPTER IV · WORLDS", "title": "What about a place that only exists in imagination?", "sub": "Surreal concepts, quiet rooftops, frozen mountain dawns."}, "ua": {"eyebrow": "РОЗДІЛ IV · СВІТИ", "title": "А як щодо місць, що існують лише в уяві?", "sub": "Сюрреалізм, тихі дахи й морозні гірські світанки."}}]};
       var STOPS = TIMELINE.length;
       var lang = "en";
 
@@ -1426,9 +1430,12 @@
         if (img.complete) syncAR();
       });
 
+      var stageEl = wheel.querySelector(".stage");
       function layout() {
         var W = window.innerWidth;
-        var H = window.innerHeight;
+        // Height of the sticky stage (100svh). Unlike innerHeight it does not change when a phone's
+        // address bar hides/shows, so the wheel no longer jumps between cards while scrolling on mobile.
+        var H = stageEl.clientHeight || window.innerHeight;
         var portrait = W / H < 0.92;
         var barH = 54;
         var Hu = H - barH;
@@ -1602,7 +1609,7 @@
         }
 
         for (var j = 0; j < N; j++) {
-          var tt = factStops[j] - p;
+          var tt = factStops[j] - pw;
           var fe = facts[j];
           if (tt >= 0.46 || tt <= -0.32) {
             if (fe._on) {
@@ -1717,6 +1724,8 @@
 
       function autoFrame(ts) {
         if (!autoPlaying) return;
+        // The page was moved by something else (menu link, keyboard, scrollbar): hand control back.
+        if (Math.abs(window.scrollY - autoY) > 4) { stopAuto(); return; }
         if (!autoLastTs) autoLastTs = ts;
         var dt = Math.min((ts - autoLastTs) / 1000, 0.05);
         autoLastTs = ts;
@@ -1763,8 +1772,15 @@
 
       autoBtn.addEventListener("click", function () { startAuto(false); });
       if (heroAuto) heroAuto.addEventListener("click", function () { startAuto(true); });
-      window.addEventListener("wheel", stopAuto, { passive: true });
-      window.addEventListener("touchstart", stopAuto, { passive: true });
+      // Stop on user input, except a touch on the Auto/Pause button itself: otherwise touchstart
+      // pauses and the click that follows immediately starts auto-scroll again.
+      function userStop(e) {
+        var t = e && e.target;
+        if (t && t.closest && t.closest("#autoBtn, #heroAuto")) return;
+        stopAuto();
+      }
+      window.addEventListener("wheel", userStop, { passive: true });
+      window.addEventListener("touchstart", userStop, { passive: true });
 
       // Instant zero-lag EN <-> UA language switch
       var i18nNodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
@@ -1854,7 +1870,7 @@
       function lbClose() {
         lb.classList.remove("open");
         body.style.overflow = "";
-        if (lbReturn && lbReturn.focus) lbReturn.focus();
+        if (lbReturn && lbReturn.focus) lbReturn.focus({ preventScroll: true });
       }
 
       cards.forEach(function (c, i) {
